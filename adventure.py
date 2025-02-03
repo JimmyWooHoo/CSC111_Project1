@@ -34,10 +34,17 @@ class AdventureGame:
     """A text adventure game class storing all location, item and map data.
 
     Instance Attributes:
-        - # TODO add descriptions of public instance attributes as needed
+        - current_location_id: the ID of the location the game is currently in
+        - ongoing: whether the game is ongoing
+        - score: the player's current score
+        - inventory: the items the player is currently carrying
+        - event_log: a list of events that have occurred in the game
+        - trash_collected: A mapping recording whether the trash in dorm has been picked up.
+
 
     Representation Invariants:
-        - # TODO add any appropriate representation invariants as needed
+        - current_location_id in _locations
+        - score >= 0
     """
 
     # Private Instance Attributes (do NOT remove these two attributes):
@@ -49,6 +56,10 @@ class AdventureGame:
     _items: list[Item]
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
+    score: int
+    inventory: list[str]
+    event_log: EventList
+    trash_collected: dict[str,bool]
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -73,6 +84,14 @@ class AdventureGame:
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
+        self.score = 0
+        self.inventory = []
+        self.event_log = EventList()
+        self.trash_collected = {
+            "waste-paper": False,
+            "food-scraps": False,
+            "waste bottles": False,
+            "vegetable peelings": False}
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
@@ -90,8 +109,10 @@ class AdventureGame:
             locations[loc_data['id']] = location_obj
 
         items = []
-        # TODO: Add Item objects to the items list; your code should be structured similarly to the loop above
-        # YOUR CODE BELOW
+        for item_data in data['items']:
+            item_obj = Item(item_data['name'], item_data['start_position'], item_data['target_position'],
+                            item_data['target_points'])
+            items += [item_obj]
 
         return locations, items
 
@@ -99,9 +120,107 @@ class AdventureGame:
         """Return Location object associated with the provided location ID.
         If no ID is provided, return the Location object associated with the current location.
         """
+        if not loc_id:
+            return self._locations[self.current_location_id]
+        else:
+            return self._locations[loc_id]
 
-        # TODO: Complete this method as specified
-        # YOUR CODE BELOW
+    def _update_score(self, item_name: str, location_id: int) -> None:
+        """Update the player's score based on the item dropped and the location."""
+        if item_name == "textbook" and location_id == 3:  # Robarts Library 1F
+            self.score += 2
+        elif item_name == "toonie" and location_id == 4:  # the lost and found office
+            self.score += 5
+        elif item_name in ["waste-paper", "food-scraps", "waste bottles",
+                           "vegetable peelings"] and location_id == 6:  # trash can
+            self.score += 1
+
+    def handle_command(self, command: str) -> None:
+        """Handle the given command and update the game state accordingly."""
+        location = self.get_location()
+
+        if command == "look":
+            if location.visited is False:
+                print(location.long_description)
+            else:
+                print(location.brief_description)
+            location.visited = True
+        elif command == "inventory":
+            print("Inventory:", self.inventory)
+        elif command == "score":
+            print("Your current score is:", self.score)
+        elif command == "undo":
+            self._undo_last_action()
+        elif command == "log":
+            self.event_log.display_events()
+        elif command == "quit":
+            self.ongoing = False
+            print("Goodbye!")
+        elif command.startswith("go"):
+            direction = command.split(" ")[1]
+            if direction in location.available_commands:
+                target_id = location.available_commands[direction]
+                target_loc = self._locations[target_id]
+
+                if target_loc.requires_key and target_loc.locked:
+                    if "locker key" in self.inventory:
+                        target_loc.locked = False
+                        print("You unlocked the locker with your key!")
+                    else:
+                        print("This area is locked. You need a key to enter.")
+                        return
+
+                self.current_location_id = target_id
+                print(f"You moved {direction} to {target_loc.brief_description}")
+            else:
+                print("You can't go that way.")
+        elif command.startswith("pick up"):
+            item_name = command.split("pick up ")[1]
+            if item_name in location.items:
+                self.inventory.append(item_name)
+                location.items.remove(item_name)
+                print(f"You picked up the {item_name}.")
+            else:
+                print(f"There is no {item_name} here.")
+        elif command.startswith("drop"):
+            item_name = command.split("drop ")[1]
+            if item_name in self.inventory:
+                self.inventory.remove(item_name)
+                location.items.append(item_name)
+                print(f"You dropped the {item_name}.")
+                if location.id_num == 6 and item_name in self.trash_collected:
+                    self.trash_collected[item_name] = True
+                    self._check_key_unlock()
+                self._update_score(item_name, location.id_num)
+            else:
+                print(f"You don't have a {item_name} to drop.")
+        else:
+            print("Invalid command.")
+
+    def _check_key_unlock(self) -> None:
+        """Check whether all trash has been picked up."""
+        if all(self.trash_collected.values()):
+            dorm = self._locations[0]
+            dorm.items.append("locker key")
+            print("A locker key falls out of the trash can! You pick it up automatically.")
+            self.inventory.append("locker key")
+
+    def _undo_last_action(self) -> None:
+        """Undo the last action taken by the player."""
+        if not self.event_log.is_empty():
+            last_event = self.event_log.last
+            if last_event.next_command == "pick up":
+                item_name = last_event.description.split(" ")[-1]
+                self.inventory.remove(item_name)
+                self.get_location(last_event.id_num).items.append(item_name)
+            elif last_event.next_command == "drop":
+                item_name = last_event.description.split(" ")[-1]
+                self.inventory.append(item_name)
+                self.get_location(last_event.id_num).items.remove(item_name)
+            self.event_log.remove_last_event()
+            print("Undid the last action.")
+        else:
+            print("No actions to undo.")
 
 
 if __name__ == "__main__":
