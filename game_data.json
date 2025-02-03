@@ -33,8 +33,8 @@
     {
       "id": 2,
       "name": "locker",
-      "brief_description": "",
-      "long_description": "",
+      "brief_description": "This is your locker and it is locked. There are a lot of your important stuffs in this locker. The trash can is to the east.",
+      "long_description": "This is your locker and it is locked. May be here are some items which you want to find. But you must use the key to unlock it. All your keys are in your messy dorm. Go back to find it! The trash can is to the east.",
       "available_commands": {
         "go east": 6,
       },
@@ -179,3 +179,4 @@
     }
   ]
 }
+
