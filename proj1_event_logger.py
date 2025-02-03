@@ -26,7 +26,6 @@ from dataclasses import dataclass
 from typing import Optional
 
 
-# TODO: Copy/paste your ex1_event_logger code below, and modify it if needed to fit your game
 
 
 @dataclass
