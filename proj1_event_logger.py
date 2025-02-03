@@ -101,7 +101,7 @@ class EventList:
             event.prev = self.last
         self.last = event
 
-    def remove_last_event(self) -> None:
+    def remove_last_event(self) -> Optional[Event]:
         """Remove the last event from this event list.
         If the list is empty, do nothing."""
 
@@ -110,12 +110,16 @@ class EventList:
         if self.is_empty():
             return None
         elif self.first == self.last:
+            item = self.first
             self.first = None
             self.last = None
+            return item
         else:
+            last_event = self.last
             self.last = self.last.prev
             self.last.next = None
             self.last.next_command = None
+            return last_event
 
     def get_id_log(self) -> list[int]:
         """Return a list of all location IDs visited for each event in this list, in sequence."""
@@ -131,13 +135,13 @@ class EventList:
 
 
 if __name__ == "__main__":
-    pass
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    # import python_ta
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'disable': ['R1705', 'E9998', 'E9999']
-    # })
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['R1705', 'E9998', 'E9999']
+    })
+
 
