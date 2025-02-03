@@ -10,7 +10,6 @@
         "pick up food scraps": 0,
         "pick up waste bottles": 0,
         "pick up vegetable peelings": 0,
-        "pick up locker key": 0,
         "go north": 6,
         "go south": 1,
         "go west": 5
@@ -118,7 +117,8 @@
         "drop food scraps": 6,
         "drop waste bottles": 6,
         "drop vegetable peelings": 6,
-        "go south": 0
+        "go south": 0,
+        "go west": 2
       },
       "items": None,
       "visited": False,
@@ -199,6 +199,7 @@
     }
   ]
 }
+
 
 
 
