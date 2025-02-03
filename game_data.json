@@ -1,15 +1,109 @@
 {
   "locations": [
     {
+      "id": 0,
+      "name": "dorm 4F",
+      "brief_description": "You are in your room on the 4th floor of dorm building. There is a trash can to the north. Your key of your UofT locker is in your messy room. There is some time left before the deadline of your CS project, but in your sleep-deprived state you've just realized that you are missing three key items...",
+      "long_description": "You are in your dorm room. There is a trash can to the north. After sleeping for a while, you wake up in a panic. Your messy room has so much rubbish that you can't find any keys you want. You still have some time left (phew), but in your sleep-deprived state you didn't realize that you are missing some key items (and you can't remember where you last saw them)! Your USB drive (the only copy of your game, because of course you forgot to back it up), your laptop charger (your battery was at 5% when you sat down), and—worst of all—your lucky UofT mug. You can't possibly submit your project without them! ",
+      "available_commands": {
+        "pick up": 3,
+        "drop": 0,
+        "go north": 6,
+        "go south": 1,
+        "go west": 5
+      },
+      "items": ["waste-paper", "food-scraps", "waste bottles", "vegetable peelings", "the key of your locker"],
+      "visited": False,
+      "key": None
+    },
+    {
       "id": 1,
       "name": "Bahen 1F",
-      "brief_description": "You are on the first floor of the Bahen Center. There are elevators to the West, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
-      "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
+      "brief_description": "You are on the first floor of the Bahen Center. Your dorm is to the north. There are the lost and found office to the south, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
+      "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West.",
       "available_commands": {
-        "go south": 4,
-        "go east": 2
+        "go north": 0,
+        "go south": 3,
+        "go west": 4,
       },
-      "items": ["toonie"]
+      "items": ["tonnie"],
+      "visited": False,
+      "key": None
+    },
+    {
+      "id": 2,
+      "name": "locker",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go east": 6,
+      },
+      "items": None,
+      "visited": False,
+      "key": None
+    },
+    {
+      "id": 3,
+      "name": "Robarts Library 1F",
+      "brief_description": "You are on the first floor of the Robarts Library. Compared to any other places, yoy prefer studying in the reading room to the north. There is a Starbucks to the east and Front Campus is to the south.",
+      "long_description": "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not to disturb them. During your campus life, the reading room to the north is your favourite place to study. You can also see a Starbucks to the east and Front Campus to the south.",
+      "available_commands": {
+        "go north": 1,
+        "go west": 7,
+      },
+      "items": [],
+      "visited": False,
+      "key": None
+    },
+    {
+      "id": 4,
+      "name": "lost and found office",
+      "brief_description": "You are in the lost and found office of Bahen. There is a couch on the East corner. You see a cute little girl crying on the couch and she is shouting 'Where is my toonie!'",
+      "long_description": "You are in the lost and found office of Bahen. You noticed that on the couch to the east, a cute little girl is crying and shouting 'Where is my toonie! It is a priceless toonie produced in 1996 and it's my 16th birthday present from my mom!'",
+      "available_commands":{
+        "go east": 1
+      },
+      "items": None,
+      "visited": False,
+      "key": None
+    },
+    {
+      "id": 8,
+      "name": "Starbucks",
+      "brief_description": "You are in the Starbucks. There",
+      "long_description": ,
+      "available_commands":{
+        "pick up": 8,
+        "go east": 0
+      },
+      "items": ["UofT mug"],
+      "visited": False,
+      "key": None
+    },
+    {
+      "id": 7,
+      "name": "reading room",
+      "brief_description": "You are in the reading room, whose access is possible with T-card or ",
+      "long_description": " ",
+      "available_commands": {
+        "go east": 3
+      },
+      "items": ["laptop charger"],
+      "visited": False,
+      "key": None
+    },
+    {
+      "id": 6,
+      "name": "trash can",
+      "brief_description": "You are besides the trash can of your dorm. ",
+      "long_description": ,
+      "available_commands":{
+        "drop": 6,
+        "go south": 0
+      },
+      "items": None,
+      "visited": False,
+      "key": None
     }
   ],
   "items": [
@@ -19,6 +113,9 @@
       "start_position": 1,
       "target_position": 4,
       "target_points": 5
+    },
+    {
+      "name":
     }
   ]
 }
