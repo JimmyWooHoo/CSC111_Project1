@@ -225,61 +225,113 @@ class AdventureGame:
 
 if __name__ == "__main__":
 
-    # When you are ready to check your work with python_ta, uncomment the following lines.
-    # (Delete the "#" and space before each line.)
-    # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    # import python_ta
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'disable': ['R1705', 'E9998', 'E9999']
-    # })
+    game_log = EventList()
+    game = AdventureGame('game_data.json', 0)
+    menu = ["look", "inventory", "score", "undo", "log", "quit"]
+    required_items = ["laptop charger", "USB drive", "UofT mug"]
 
-    game_log = EventList()  # This is REQUIRED as one of the baseline requirements
-    game = AdventureGame('game_data.json', 1)  # load data, setting initial location ID to 1
-    menu = ["look", "inventory", "score", "undo", "log", "quit"]  # Regular menu options available at each location
-    choice = None
-
-    # Note: You may modify the code below as needed; the following starter code is just a suggestion
     while game.ongoing:
-        # Note: If the loop body is getting too long, you should split the body up into helper functions
-        # for better organization. Part of your marks will be based on how well-organized your code is.
-
         location = game.get_location()
 
-        # TODO: Add new Event to game log to represent current game location
-        #  Note that the <choice> variable should be the command which led to this event
-        # YOUR CODE HERE
+        if not location.visited:
+            print(f"\nLOCATION {location.id_num}\n{location.long_description}")
+            location.visited = True
+        else:
+            print(f"\nLOCATION {location.id_num}\n{location.brief_description}")
 
-        # TODO: Depending on whether or not it's been visited before,
-        #  print either full description (first time visit) or brief description (every subsequent visit) of location
-        # YOUR CODE HERE
-
-        # Display possible actions at this location
-        print("What to do? Choose from: look, inventory, score, undo, log, quit")
+        # ==== Display available actions ====
+        print("\nWhat to do? Choose from: look, inventory, score, undo, log, quit")
         print("At this location, you can also:")
         for action in location.available_commands:
             print("-", action)
 
-        # Validate choice
         choice = input("\nEnter action: ").lower().strip()
         while choice not in location.available_commands and choice not in menu:
-            print("That was an invalid option; try again.")
-            choice = input("\nEnter action: ").lower().strip()
+            print("Invalid option. Valid commands:", menu + list(location.available_commands.keys()))
+            choice = input("Enter action: ").lower().strip()
 
-        print("========")
-        print("You decided to:", choice)
+        print("\n========")
+        print(f"You chose: {choice}")
 
+        # ==== Handle menu commands ====
         if choice in menu:
-            # TODO: Handle each menu command as appropriate
-            # Note: For the "undo" command, remember to manipulate the game_log event list to keep it up-to-date
-            if choice == "log":
+            if choice == "look":
+                print(location.long_description)
+            elif choice == "inventory":
+                print("Inventory items:", game.inventory)
+            elif choice == "score":
+                print(f"Current score: {game.score}/10")
+            elif choice == "undo":
+                if not game_log.is_empty():
+                    # Remove last event
+                    last_event = game_log.last
+                    game_log.remove_last_event()
+
+                    # Handle item reversal
+                    if "pick up" in last_event.next_command:
+                        item = last_event.next_command.split("pick up ")[1]
+                        if item in game.inventory:
+                            game.inventory.remove(item)
+                            location.items.append(item)
+                    elif "drop" in last_event.next_command:
+                        item = last_event.next_command.split("drop ")[1]
+                        if item in location.items:
+                            game.inventory.append(item)
+                            location.items.remove(item)
+                            # Revert score if needed
+                            if location.id_num == 6 and item in ["waste-paper", "food-scraps", "waste bottles",
+                                                                 "vegetable peelings"]:
+                                game.score = max(0, game.score - 1)
+                    print("Undid last action")
+            elif choice == "log":
                 game_log.display_events()
-            # ENTER YOUR CODE BELOW to handle other menu commands (remember to use helper functions as appropriate)
-
+            elif choice == "quit":
+                game.ongoing = False
         else:
-            # Handle non-menu actions
-            result = location.available_commands[choice]
-            game.current_location_id = result
+            # ==== Handle game commands ====
+            if choice.startswith("go"):
+                direction = choice.split()[1]
+                if direction in location.available_commands:
+                    # Check locker access
+                    next_loc_id = location.available_commands[direction]
+                    next_loc = game.get_location(next_loc_id)
+                    if next_loc.id_num == 2 and "locker key" not in game.inventory:
+                        print("The locker is locked! You need a key to open it.")
+                    else:
+                        game.current_location_id = next_loc_id
+            elif choice.startswith("pick up"):
+                item_name = choice.split("pick up ")[1]
+                if item_name in location.items:
+                    game.inventory.append(item_name)
+                    location.items.remove(item_name)
+                    print(f"Picked up {item_name}")
+                else:
+                    print(f"{item_name} not available here")
+            elif choice.startswith("drop"):
+                item_name = choice.split("drop ")[1]
+                if item_name in game.inventory:
+                    game.inventory.remove(item_name)
+                    location.items.append(item_name)
+                    print(f"Dropped {item_name}")
+                    # Update score for valid drops
+                    if location.id_num == 6:  # Trash can
+                        if item_name in ["waste-paper", "food-scraps", "waste bottles", "vegetable peelings"]:
+                            game.score += 1
+                            print(f"+1 point! Total: {game.score}")
+                            # Check if all trash collected
+                            trash_items = ["waste-paper", "food-scraps", "waste bottles", "vegetable peelings"]
+                            if all(item not in location.items for item in trash_items):
+                                print("A key falls out of the trash! You got the locker key!")
+                                game.inventory.append("locker key")
 
-            # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
-            # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
+        if all(item in game.inventory for item in required_items) and game.score >= 10:
+            print("\n\n=== YOU WIN! ===")
+            print("You found all items and scored enough points!")
+            print("Project submitted successfully!")
+            game.ongoing = False
+        elif game.score < 10 and all(item in game.inventory for item in required_items):
+            print("\n\n=== GAME OVER ===")
+            print("You found all items but didn't score enough points!")
+            print("Try helping more people to earn points!")
+            game.ongoing = False
+
