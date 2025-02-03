@@ -6,15 +6,18 @@
       "brief_description": "You are in your room on the 4th floor of dorm building. There is a trash can to the north. Your key of your UofT locker is in your messy room. There is some time left before the deadline of your CS project, but in your sleep-deprived state you've just realized that you are missing three key items...",
       "long_description": "You are in your dorm room. There is a trash can to the north. After sleeping for a while, you wake up in a panic. Your messy room has so much rubbish that you can't find any keys you want. You still have some time left (phew), but in your sleep-deprived state you didn't realize that you are missing some key items (and you can't remember where you last saw them)! Your USB drive (the only copy of your game, because of course you forgot to back it up), your laptop charger (your battery was at 5% when you sat down), and—worst of all—your lucky UofT mug. You can't possibly submit your project without them! ",
       "available_commands": {
-        "pick up": 3,
-        "drop": 0,
+        "pick up waste paper": 0,
+        "pick up food scraps": 0,
+        "pick up waste bottles": 0,
+        "pick up vegetable peelings": 0,
+        "pick up locker key": 0,
         "go north": 6,
         "go south": 1,
         "go west": 5
       },
-      "items": ["waste-paper", "food-scraps", "waste bottles", "vegetable peelings", "the key of your locker"],
+      "items": ["waste paper", "food scraps", "waste bottles", "vegetable peelings", "locker key"],
       "visited": False,
-      "requires_key":False,
+      "requires_key": False,
       "locked": False
     },
     {
@@ -25,9 +28,11 @@
       "available_commands": {
         "go north": 0,
         "go south": 3,
-        "go west": 4
+        "go west": 4,
+        "pick up toonie": 1,
+        "pick up textbook": 1
       },
-      "items": ["tonnie", "textbook"],
+      "items": ["toonie", "textbook"],
       "visited": False,
       "requires_key":False,
       "locked": False
@@ -38,9 +43,10 @@
       "brief_description": "This is your locker and it is locked. There's a keyhole glowing faintly. There are a lot of your important stuffs in this locker. The trash can is to the east.",
       "long_description": "This is your locker and it is locked. May be here are some items which you want to find. There's a keyhole glowing faintly, so you must use the key to unlock it. All your keys are in your messy dorm. Go back to find it! The trash can is to the east.",
       "available_commands": {
-        "go east": 6
+        "go east": 6,
+        "pick up USB Drive": 6
       },
-      "items": None,
+      "items": ["USB Drive"],
       "visited": False,
       "requires_key": True,
       "locked": True
@@ -52,9 +58,10 @@
       "long_description": "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not to disturb them. During your campus life, the reading room to the north is your favourite place to study.",
       "available_commands": {
         "go north": 1,
-        "go west": 7
+        "go west": 7,
+        "drop textbook": 3
       },
-      "items": [],
+      "items": None,
       "visited": False,
       "requires_key":False,
       "locked": False
@@ -65,7 +72,8 @@
       "brief_description": "You are in the lost and found office. You can see a couch in the corner. A cute little girl is crying on the couch and shouting 'Where is my toonie!'",
       "long_description": "You are in the lost and found office of Bahen. You noticed that on the couch to the east, a cute little girl is crying and shouting 'Where is my toonie! It is a priceless toonie produced in 1996 and it's my 16th birthday present from my mom!'",
       "available_commands":{
-        "go east": 1
+        "go east": 1,
+        "drop toonie": 4
       },
       "items": None,
       "visited": False,
@@ -73,17 +81,17 @@
       "locked": False
     },
     {
-      "id": 8,
+      "id": 5,
       "name": "Starbucks",
       "brief_description": "You are in the Starbucks. Your dorm is to the east. It seems like the salesperson are looking for someone...",
-      "long_description": "You are in the Starbucks. The salesperson arelooking for the owner of a beautiful mug. There is a logo of 'University of Toronto' on this mug. OMG! You are really sure it is your lucky mug! But in case someone else take the mug away, the salesman wants to ask you one question about UofT. If your answer is correct, you can take it home. Your dorm is to the east.",
+      "long_description": "You are in the Starbucks. The salesperson arelooking for the owner of a beautiful mug. There is a logo of 'University of Toronto' on this mug. OMG! You are really sure it is your lucky mug! ",
       "available_commands":{
-        "pick up": 8,
+        "pick up UofT mug": 5,
         "go east": 0
       },
       "items": ["UofT mug"],
       "visited": False,
-      "requires_key":False,
+      "requires_key": False,
       "locked": False
     },
     {
@@ -92,7 +100,8 @@
       "brief_description": "The seats in the reading room are limited. You can only access the reading room when you have at least 10 scores. This is your favorite place for studying. There is the lost and found office to the north.",
       "long_description": "You are in the reading room, whose access is only possible with at least 10 scores. It is possible for you to left some stuffs in this room because you always come here to study. There is the lost and found office to the north but there is no passage between it and the reading room ",
       "available_commands": {
-        "go east": 3
+        "go east": 3,
+        "pick up laptop charger": 7
       },
       "items": ["laptop charger"],
       "visited": False,
@@ -105,7 +114,10 @@
       "brief_description": "You are besides the trash can. Your dorm is to the south and your locker is to the west.",
       "long_description": "You are besides the trash can. The manager of your dorm recommends residents do not litter. Thus, if you put your garbage in the right place, you may earn some scores as reward from the manager. Your dorm is to the south and your locker is to the west.",
       "available_commands":{
-        "drop": 6,
+        "drop waste paper": 6,
+        "drop food scraps": 6,
+        "drop waste bottles": 6,
+        "drop vegetable peelings": 6,
         "go south": 0
       },
       "items": None,
@@ -187,5 +199,6 @@
     }
   ]
 }
+
 
 
