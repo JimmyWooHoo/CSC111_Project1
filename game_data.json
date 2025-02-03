@@ -19,14 +19,14 @@
     {
       "id": 1,
       "name": "Bahen 1F",
-      "brief_description": "You are on the first floor of the Bahen Center. Your dorm is to the north. There are the lost and found office to the south, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
-      "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West.",
+      "brief_description": "You are on the first floor of the Bahen Center. Your dorm is to the north. There is the lost and found office on the second floor of Bahen. An elevator is in the west corner. You see something shiny on the ground -- looks like a toonie?",
+      "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. If you can help him to carry the textbook to the library, you can earn some scores as reward. There is an elevator in the west corner. You can take it to the lost and found office.",
       "available_commands": {
         "go north": 0,
         "go south": 3,
         "go west": 4,
       },
-      "items": ["tonnie"],
+      "items": ["tonnie", "textbook"],
       "visited": False,
       "key": None
     },
@@ -45,8 +45,8 @@
     {
       "id": 3,
       "name": "Robarts Library 1F",
-      "brief_description": "You are on the first floor of the Robarts Library. Compared to any other places, yoy prefer studying in the reading room to the north. There is a Starbucks to the east and Front Campus is to the south.",
-      "long_description": "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not to disturb them. During your campus life, the reading room to the north is your favourite place to study. You can also see a Starbucks to the east and Front Campus to the south.",
+      "brief_description": "You are on the first floor of the Robarts Library. There is a reading room to the west.",
+      "long_description": "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not to disturb them. During your campus life, the reading room to the north is your favourite place to study.",
       "available_commands": {
         "go north": 1,
         "go west": 7,
@@ -58,7 +58,7 @@
     {
       "id": 4,
       "name": "lost and found office",
-      "brief_description": "You are in the lost and found office of Bahen. There is a couch on the East corner. You see a cute little girl crying on the couch and she is shouting 'Where is my toonie!'",
+      "brief_description": "You are in the lost and found office. You can see a couch in the corner. A cute little girl is crying on the couch and shouting 'Where is my toonie!'",
       "long_description": "You are in the lost and found office of Bahen. You noticed that on the couch to the east, a cute little girl is crying and shouting 'Where is my toonie! It is a priceless toonie produced in 1996 and it's my 16th birthday present from my mom!'",
       "available_commands":{
         "go east": 1
@@ -70,8 +70,8 @@
     {
       "id": 8,
       "name": "Starbucks",
-      "brief_description": "You are in the Starbucks. There",
-      "long_description": ,
+      "brief_description": "You are in the Starbucks. Your dorm is to the east. It seems like the salesperson are looking for someone...",
+      "long_description": "You are in the Starbucks. The salesperson arelooking for the owner of a beautiful mug. There is a logo of 'University of Toronto' on this mug. OMG! You are really sure it is your lucky mug! But in case someone else take the mug away, the salesman wants to ask you one question about UofT. If your answer is correct, you can take it home. Your dorm is to the east.",
       "available_commands":{
         "pick up": 8,
         "go east": 0
@@ -83,8 +83,8 @@
     {
       "id": 7,
       "name": "reading room",
-      "brief_description": "You are in the reading room, whose access is possible with T-card or ",
-      "long_description": " ",
+      "brief_description": "The seats in the reading room are limited. You can only access the reading room when you have at least 10 scores. This is your favorite place for studying. There is the lost and found office to the north.",
+      "long_description": "You are in the reading room, whose access is only possible with at least 10 scores. It is possible for you to left some stuffs in this room because you always come here to study. There is the lost and found office to the north but there is no passage between it and the reading room ",
       "available_commands": {
         "go east": 3
       },
@@ -95,8 +95,8 @@
     {
       "id": 6,
       "name": "trash can",
-      "brief_description": "You are besides the trash can of your dorm. ",
-      "long_description": ,
+      "brief_description": "You are besides the trash can. Your dorm is to the south and your locker is to the west.",
+      "long_description": "You are besides the trash can. The manager of your dorm recommends residents do not litter. Thus, if you put your garbage in the right place, you may earn some scores as reward from the manager. Your dorm is to the south and your locker is to the west.",
       "available_commands":{
         "drop": 6,
         "go south": 0
@@ -107,15 +107,5 @@
     }
   ],
   "items": [
-    {
-      "name": "toonie",
-      "description": "There is a toonie on the ground. Someone must have dropped it.",
-      "start_position": 1,
-      "target_position": 4,
-      "target_points": 5
-    },
-    {
-      "name":
-    }
   ]
 }
