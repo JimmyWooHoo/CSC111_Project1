@@ -55,13 +55,10 @@ class Location:
     # The only thing you must NOT change is the name of this class: Location.
     # All locations in your game MUST be represented as an instance of this class.
 
-    def __init__(self, location_id, brief_description, long_description, available_commands, items,
-                 visited=False, requires_key: bool = False, locked: bool = False) -> None:
-        """Initialize a new location.
-
-        # TODO Add more details here about the initialization if needed
+    def __init__(self, location_id: int, brief_description: str, long_description:str, available_commands:dict[str, int], items:list[str],
+                 visited: bool = False, requires_key: bool = False, locked: bool = False) -> None:
+        """Initialize a new location with the given data.
         """
-
         self.id_num = location_id
         self.brief_description = brief_description
         self.long_description = long_description
@@ -110,13 +107,13 @@ class Item:
 # etc.
 
 if __name__ == "__main__":
-    pass
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    # import python_ta
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'disable': ['R1705', 'E9998', 'E9999']
-    # })
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['R1705', 'E9998', 'E9999']
+    })
+
 
