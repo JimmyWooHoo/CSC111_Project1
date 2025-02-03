@@ -25,6 +25,12 @@ from game_entities import Location, Item
 from proj1_event_logger import Event, EventList
 
 
+def _handle_look(location: Location) -> None:
+    """Handle look command."""
+    print(location.long_description if not location.visited else location.brief_description)
+    location.visited = True
+
+
 class AdventureGame:
     """A text adventure game class storing all location, item and map data.
 
@@ -110,9 +116,9 @@ class AdventureGame:
         target_id = loc_id if loc_id is not None else self.current_location_id
         return self._locations[target_id]
 
-    def handle_command(self, command: str) -> None:
+    def handle_command(self, commands: str) -> None:
         """Process player command with proper item/location handling"""
-        cmd = command.strip().lower()
+        cmd = commands.strip().lower()
         location = self.get_location()
 
         # Log command before processing
@@ -123,7 +129,7 @@ class AdventureGame:
         ))
 
         if cmd == "look":
-            self._handle_look(location)
+            _handle_look(location)
         elif cmd == "inventory":
             self._handle_inventory()
         elif cmd == "score":
@@ -142,11 +148,6 @@ class AdventureGame:
             self._handle_drop(cmd, location)
         else:
             print("Invalid command.")
-
-    def _handle_look(self, location: Location) -> None:
-        """Handle look command."""
-        print(location.long_description if not location.visited else location.brief_description)
-        location.visited = True
 
     def _handle_inventory(self) -> None:
         """Show player inventory."""
@@ -172,10 +173,10 @@ class AdventureGame:
         self.ongoing = False
         print("Thanks for playing!")
 
-    def _handle_movement(self, command: str, current_loc: Location) -> None:
+    def _handle_movement(self, commands: str, current_location: Location) -> None:
         """Process movement commands from formatted game data"""
-        direction = command.split(" ", 1)[1]
-        target_id = current_loc.available_commands.get(direction)
+        direction = commands.split(" ", 1)[1]
+        target_id = current_location.available_commands.get(direction)
 
         if target_id is None:
             print("Can't go that way.")
@@ -183,12 +184,12 @@ class AdventureGame:
 
         target_loc = self.get_location(target_id)
         if target_loc.locked:
-            if not self._check_unlock_condition(target_loc):
-                print("This location is locked. You can't go there yet.")
-                return
-            else:
+            if self._check_unlock_condition(target_loc):
                 target_loc.locked = False
                 print(f"The {target_loc.id_num} is now unlocked!")
+            else:
+                print("This location is locked. You can't go there yet.")
+                return
 
         self.current_location_id = target_id
         print(f"Moved {direction} to {target_loc.brief_description}")
@@ -200,9 +201,9 @@ class AdventureGame:
         else:
             return False
 
-    def _handle_pickup(self, command: str, location: Location) -> None:
+    def _handle_pickup(self, commands: str, location: Location) -> None:
         """Process item pickup with exact name matching"""
-        item_name = command.split("pick up ", 1)[1].strip()
+        item_name = commands.split("pick up ", 1)[1].strip()
 
         # Handle case-sensitive matching from JSON
         actual_name = next((item for item in location.items if item.lower() == item_name.lower()), None)
@@ -214,9 +215,9 @@ class AdventureGame:
         else:
             print(f"{item_name} not found here.")
 
-    def _handle_drop(self, command: str, location: Location) -> None:
+    def _handle_drop(self, commands: str, location: Location) -> None:
         """Process item drop with exact name matching"""
-        item_name = command.split("drop ", 1)[1].strip()
+        item_name = commands.split("drop ", 1)[1].strip()
 
         # Find case-sensitive match in inventory
         actual_name = next((item for item in self.inventory if item.lower() == item_name.lower()), None)
@@ -294,5 +295,6 @@ if __name__ == "__main__":
             print("\n=== YOU WIN! ===")
             print("Collected all required items with sufficient score!")
             game.ongoing = False
+
 
 
