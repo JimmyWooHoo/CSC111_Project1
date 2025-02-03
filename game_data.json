@@ -14,7 +14,8 @@
       },
       "items": ["waste-paper", "food-scraps", "waste bottles", "vegetable peelings", "the key of your locker"],
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     },
     {
       "id": 1,
@@ -24,23 +25,25 @@
       "available_commands": {
         "go north": 0,
         "go south": 3,
-        "go west": 4,
+        "go west": 4
       },
       "items": ["tonnie", "textbook"],
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     },
     {
       "id": 2,
       "name": "locker",
-      "brief_description": "This is your locker and it is locked. There are a lot of your important stuffs in this locker. The trash can is to the east.",
-      "long_description": "This is your locker and it is locked. May be here are some items which you want to find. But you must use the key to unlock it. All your keys are in your messy dorm. Go back to find it! The trash can is to the east.",
+      "brief_description": "This is your locker and it is locked. There's a keyhole glowing faintly. There are a lot of your important stuffs in this locker. The trash can is to the east.",
+      "long_description": "This is your locker and it is locked. May be here are some items which you want to find. There's a keyhole glowing faintly, so you must use the key to unlock it. All your keys are in your messy dorm. Go back to find it! The trash can is to the east.",
       "available_commands": {
-        "go east": 6,
+        "go east": 6
       },
       "items": None,
       "visited": False,
-      "key": None
+      "requires_key": True,
+      "locked": True
     },
     {
       "id": 3,
@@ -49,11 +52,12 @@
       "long_description": "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not to disturb them. During your campus life, the reading room to the north is your favourite place to study.",
       "available_commands": {
         "go north": 1,
-        "go west": 7,
+        "go west": 7
       },
       "items": [],
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     },
     {
       "id": 4,
@@ -65,7 +69,8 @@
       },
       "items": None,
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     },
     {
       "id": 8,
@@ -78,7 +83,8 @@
       },
       "items": ["UofT mug"],
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     },
     {
       "id": 7,
@@ -90,7 +96,8 @@
       },
       "items": ["laptop charger"],
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     },
     {
       "id": 6,
@@ -103,7 +110,8 @@
       },
       "items": None,
       "visited": False,
-      "key": None
+      "requires_key":False,
+      "locked": False
     }
   ],
   "items": [
@@ -144,10 +152,10 @@
     },
     {
       "name": "locker key",
-      "description": "There is a key with locker written on it on the ground, it may unlock something.",
+      "description": "The key has the word locker written on it, it may unlock something.",
       "start_position": 0,
       "target_position": 2,
-      "target_points": 5
+      "target_points": 0
     },
     {
       "name": "UofT mug",
@@ -179,4 +187,5 @@
     }
   ]
 }
+
 
