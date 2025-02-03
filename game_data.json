@@ -107,5 +107,75 @@
     }
   ],
   "items": [
+    {
+      "name": "toonie",
+      "description": "There is a toonie on the ground. Someone must have dropped it.",
+      "start_position": 1,
+      "target_position": 4,
+      "target_points": 5
+    },
+    {
+      "name": "waste paper",
+      "description": "There is a piece of waste paper on the ground, and it is not where it belongs.",
+      "start_position": 0,
+      "target_position": 6,
+      "target_points": 1
+    },
+    {
+      "name": "food scraps",
+      "description": "There is some food scraps on the ground, and it is not where it belongs.",
+      "start_position": 0,
+      "target_position": 6,
+      "target_points": 1
+    },
+    {
+      "name": "waste bottle",
+      "description": "There is a waste bottle on the ground, and it is not where it belongs.",
+      "start_position": 0,
+      "target_position": 6,
+      "target_points": 1
+    },
+    {
+      "name": "vegetable peelings",
+      "description": "There is a wast paper on the ground, and it is not where it belongs.",
+      "start_position": 0,
+      "target_position": 6,
+      "target_points": 1
+    },
+    {
+      "name": "locker key",
+      "description": "There is a key with locker written on it on the ground, it may unlock something.",
+      "start_position": 0,
+      "target_position": 2,
+      "target_points": 5
+    },
+    {
+      "name": "UofT mug",
+      "description": "The mug is in the hands of the clerk, ",
+      "start_position": 8,
+      "target_position": 0,
+      "target_points": 5
+    },
+    {
+      "name": "laptop charger",
+      "description": "Congrats, you have found your laptop charger! Time to bring it home.",
+      "start_position": 7,
+      "target_position": 0,
+      "target_points": 5
+    },
+    {
+      "name": "USB Drive",
+      "description": "Congrats, you have found your USB Drive! Time to bring it home.",
+      "start_position": 2,
+      "target_position": 0,
+      "target_points": 5
+    },
+    {
+      "name": "textbook",
+      "description": "These textbooks look too heavy for one to carry, maybe the boy needs some help.",
+      "start_position": 1,
+      "target_position": 3,
+      "target_points": 5
+    }
   ]
 }
