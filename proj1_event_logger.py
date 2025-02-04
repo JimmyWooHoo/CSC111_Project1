@@ -93,13 +93,12 @@ class EventList:
         """
         # Hint: You should update the previous node's <next_command> as needed
 
+        event.next_command = command
         if self.is_empty():
             self.first = event
         else:
             self.last.next = event
-            self.last.next_command = command
-            event.prev = self.last
-        self.last = event
+            self.last = event
 
     def remove_last_event(self) -> Optional[Event]:
         """Remove the last event from this event list.
@@ -143,5 +142,6 @@ if __name__ == "__main__":
         'max-line-length': 120,
         'disable': ['R1705', 'E9998', 'E9999']
     })
+
 
 
