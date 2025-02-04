@@ -133,15 +133,59 @@ class EventList:
     # Note: You may add other methods to this class as needed
 
 
+class UndoSystem:
+    """
+    A class that manages the undo functionality in the adventure game.
+
+    This system keeps track of past game states using a stack data structure.
+    Players can revert their most recent action by using the 'undo' command.
+    """
+
+    def __init__(self):
+        """
+        Initialize an empty undo stack.
+
+        The stack stores previous game states, allowing players to revert
+        their last move when needed.
+        """
+        self.undo_stack = []
+
+    def save_state(self, game_state: dict):
+        """
+        Save a copy of the current game state before an action is performed.
+
+        This function should be called before any significant state-changing
+        action (e.g., moving, picking up/dropping an item) to allow undoing it.
+
+        :param game_state: A dictionary representing the current game state.
+        """
+        self.undo_stack.append(game_state.copy())
+
+    def undo(self):
+        """
+        Revert the game to the last saved state.
+
+        This function restores the most recent state from the undo stack.
+        If no previous state exists, it prints a message indicating that undo
+        is not possible.
+
+        :return: The previous game state dictionary if available, otherwise None.
+        """
+        if self.undo_stack:
+            return self.undo_stack.pop()
+        else:
+            print("Nothing to undo!")
+            return None
+
+
+
 if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
     import python_ta
+
     python_ta.check_all(config={
         'max-line-length': 120,
         'disable': ['R1705', 'E9998', 'E9999']
     })
-
-
-
