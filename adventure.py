@@ -167,10 +167,11 @@ class AdventureGame:
                 print(f"You earned {item.target_points} points!")
 
     def check_victory(self) -> None:
-        """Check if the player win after dropping one item in the dorm."""
+        """Check if the player wins by dropping all required items at the dorm."""
         required_items = {"USB Drive", "laptop charger", "UofT mug"}
-        if all(item in self.inventory for item in required_items):
-            print("Congratulations! You have all the required items and can now finish your project!")
+        dorm = self.get_location(0)  # Assuming dorm is location ID 0
+        if all(item in dorm.items for item in required_items):
+            print("Congratulations! You have dropped all required items in the dorm and can now finish your project!")
             self.ongoing = False
 
     def look(self) -> None:
