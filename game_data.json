@@ -3,8 +3,8 @@
     {
       "id": 0,
       "name": "dorm 4F",
-      "brief_description": "You are in your room on the 4th floor of dorm building. There is a trash can to the north. Your key of your UofT locker is in your messy room. There is some time left before the deadline of your CS project, but in your sleep-deprived state you've just realized that you are missing three key items...",
-      "long_description": "You are in your dorm room. There is a trash can to the north. After sleeping for a while, you wake up in a panic. Your messy room has so much rubbish that you can't find any keys you want. You still have some time left (phew), but in your sleep-deprived state you didn't realize that you are missing some key items (and you can't remember where you last saw them)! Your USB drive (the only copy of your game, because of course you forgot to back it up), your laptop charger (your battery was at 5% when you sat down), and—worst of all—your lucky UofT mug. You can't possibly submit your project without them! ",
+      "brief_description": "You are in your messy room on the 4th floor of dorm building. There is a trash can to the north. There is some time left before the deadline of your CS project, but in your sleep-deprived state you've just realized that you are missing three key items...",
+      "long_description": "You are in your dorm room. There is a trash can to the north. After sleeping for a while, you wake up in a panic. Your messy room has so much rubbish. You still have some time left (phew), but in your sleep-deprived state you didn't realize that you are missing some key items (and you can't remember where you last saw them)! Your USB drive (the only copy of your game, because of course you forgot to back it up), your laptop charger (your battery was at 5% when you sat down), and—worst of all—your lucky UofT mug. You can't possibly submit your project without them! ",
       "available_commands": {
         "pick up waste paper": 0,
         "pick up food scraps": 0,
@@ -12,12 +12,13 @@
         "pick up vegetable peelings": 0,
         "go north": 6,
         "go south": 1,
-        "go west": 5
+        "go west": 5,
+        "drop USB Drive": 0,
+        "drop laptop charger": 0,
+        "drop UofT mug": 0
       },
-      "items": ["waste paper", "food scraps", "waste bottles", "vegetable peelings", "locker key"],
-      "visited": False,
-      "requires_key": False,
-      "locked": False
+      "items": ["waste paper", "food scraps", "waste bottles", "vegetable peelings"],
+      "visited": false
     },
     {
       "id": 1,
@@ -32,23 +33,19 @@
         "pick up textbook": 1
       },
       "items": ["toonie", "textbook"],
-      "visited": False,
-      "requires_key":False,
-      "locked": False
+      "visited": false
     },
     {
       "id": 2,
       "name": "locker",
-      "brief_description": "This is your locker and it is locked. There's a keyhole glowing faintly. There are a lot of your important stuffs in this locker. The trash can is to the east.",
-      "long_description": "This is your locker and it is locked. May be here are some items which you want to find. There's a keyhole glowing faintly, so you must use the key to unlock it. All your keys are in your messy dorm. Go back to find it! The trash can is to the east.",
+      "brief_description": "This is your locker. There are a lot of your important stuffs in this locker. The trash can is to the east.",
+      "long_description": "This is your locker. May be here are some items which you want to find. Thanks to your sleep deficiency, you forgot to lock your locker so you can open it! The trash can is to the east.",
       "available_commands": {
         "go east": 6,
         "pick up USB Drive": 6
       },
       "items": ["USB Drive"],
-      "visited": False,
-      "requires_key": True,
-      "locked": True
+      "visited": false
     },
     {
       "id": 3,
@@ -60,10 +57,8 @@
         "go west": 7,
         "drop textbook": 3
       },
-      "items": None,
-      "visited": False,
-      "requires_key":False,
-      "locked": False
+      "items": [],
+      "visited": false
     },
     {
       "id": 4,
@@ -74,10 +69,8 @@
         "go east": 1,
         "drop toonie": 4
       },
-      "items": None,
-      "visited": False,
-      "requires_key":False,
-      "locked": False
+      "items": [],
+      "visited": false
     },
     {
       "id": 5,
@@ -89,9 +82,7 @@
         "go east": 0
       },
       "items": ["UofT mug"],
-      "visited": False,
-      "requires_key": False,
-      "locked": False
+      "visited": false
     },
     {
       "id": 7,
@@ -103,9 +94,7 @@
         "pick up laptop charger": 7
       },
       "items": ["laptop charger"],
-      "visited": False,
-      "requires_key":False,
-      "locked": False
+      "visited": false
     },
     {
       "id": 6,
@@ -120,10 +109,8 @@
         "go south": 0,
         "go west": 2
       },
-      "items": None,
-      "visited": False,
-      "requires_key":False,
-      "locked": False
+      "items": [],
+      "visited": false
     }
   ],
   "items": [
@@ -139,35 +126,28 @@
       "description": "There is a piece of waste paper on the ground, and it is not where it belongs.",
       "start_position": 0,
       "target_position": 6,
-      "target_points": 1
+      "target_points": 2
     },
     {
       "name": "food scraps",
       "description": "There is some food scraps on the ground, and it is not where it belongs.",
       "start_position": 0,
       "target_position": 6,
-      "target_points": 1
+      "target_points": 2
     },
     {
       "name": "waste bottle",
       "description": "There is a waste bottle on the ground, and it is not where it belongs.",
       "start_position": 0,
       "target_position": 6,
-      "target_points": 1
+      "target_points": 2
     },
     {
       "name": "vegetable peelings",
       "description": "There is a wast paper on the ground, and it is not where it belongs.",
       "start_position": 0,
       "target_position": 6,
-      "target_points": 1
-    },
-    {
-      "name": "locker key",
-      "description": "The key has the word locker written on it, it may unlock something.",
-      "start_position": 0,
-      "target_position": 2,
-      "target_points": 0
+      "target_points": 2
     },
     {
       "name": "UofT mug",
@@ -199,6 +179,7 @@
     }
   ]
 }
+
 
 
 
