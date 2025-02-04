@@ -117,7 +117,7 @@ class AdventureGame:
                 print("You need at least 20 points to enter the reading room.")
             else:
                 self.current_location_id = target_id
-                self.event_log.add_event(Event(self.get_location().id_num, f"Player moved {direction} to location {self.get_location().id_num}"), f"Player moved {direction} to {self.get_location().id_num}")
+                self.event_log.add_event(Event(self.get_location().id_num, f"Player moved {direction} to location {self.get_location().id_num}"), f"Player moved {direction} to location {self.get_location().id_num}")
         else:
             print("You can't go that way.")
 
@@ -248,6 +248,7 @@ if __name__ == "__main__":
     game = AdventureGame('game_data.json', 0)
     game_log = EventList()
     menu = ["look", "inventory", "score", "undo", "log", "quit"]
+    steps_limit = 50
 
     while game.ongoing:
         current_location = game.get_location()
@@ -256,6 +257,10 @@ if __name__ == "__main__":
         print("At this location, you can also:")
         for action in current_location.available_commands:
             print(f"- {action}")
+
+        if steps_limit < 0:
+            print("You have reached the steps limit before returning 3 required items back to dorm. You lost.")
+            game.quit()
 
         choice = input("\nEnter action: ").lower().strip()
 
@@ -267,6 +272,7 @@ if __name__ == "__main__":
             game.display_score()
         elif choice == "undo":
             game.undo()
+            steps_limit -= 1
         elif choice == "log":
             game.log()
         elif choice == "quit":
@@ -274,11 +280,14 @@ if __name__ == "__main__":
         elif choice.startswith("go "):
             direction = choice.split(" ")[1]
             game.go(direction)
+            steps_limit -= 1
         elif choice.startswith("pick up "):
             item_name = choice.split("pick up ", 1)[1]
             game.pick_up(item_name)
+            steps_limit -= 1
         elif choice.startswith("drop "):
             item_name = choice.split("drop ", 1)[1]
             game.drop(item_name)
+            steps_limit -= 1
         else:
             print("Invalid command. Try again.")
