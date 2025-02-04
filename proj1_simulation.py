@@ -185,27 +185,33 @@ if __name__ == "__main__":
         "pick up USB drive",
         "go east",
         "go south",  # To dorm
-
+        "drop USB drive"
+        "go west"   # To starbucks
+        "pick up UofT mug"
+        "go east"
+        "drop UofT mug"
         "go south",  # To Bahen 1F
         "pick up toonie",
         "go west",  # To the lost and found office
         "drop toonie",
         "go east",  # To Bahen
+        "pick up textbook"
         "go south",  # To Robarts
+        "drop textbook"
         "go west",  # To reading room
         "pick up laptop charger",
         "go east",  # To Robarts
         "go north",  # To Bahen
         "go north",  # To dorm
+        "drop laptop charger"]
 
-        "go west",  # To Starbucks
-        "pick up UofT mug"]
     expected_log = [0, 0, 0, 0,
                     6, 6, 6, 6, 6,
                     2, 2, 6,
-                    0, 1, 1, 4, 4,
+                    0, 0, 5, 5, 0, 0,
+                    1, 1, 4, 4, 1, 3, 3,
                     1, 3, 7, 7,
-                    3, 1, 0, 5, 5]
+                    3, 1, 0]
     # Uncomment the line below to test your walkthrough
     sim = AdventureGameSimulation('game_data.json', 0, win_walkthrough)
     assert expected_log == sim.get_id_log()
@@ -237,5 +243,6 @@ if __name__ == "__main__":
     # assert expected_log == AdventureGameSimulation(...)
 
     # Note: You can add more code below for your own testing purposes
+
 
 
