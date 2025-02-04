@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 from typing import Optional
 from game_entities import Location, Item
-from proj1_event_logger import Event, EventList
+from proj1_event_logger import Event, EventList, UndoSystem
 
 
 class AdventureGame:
@@ -60,6 +60,8 @@ class AdventureGame:
         self.score = 0
         self.inventory = []
         self.event_log = EventList()
+        self.undo_system = UndoSystem()  # Create UndoSystem instance
+        self.undo_stack = []  # Additional stack to properly track previous states
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
@@ -104,6 +106,8 @@ class AdventureGame:
             - direction in ["north", "south", "west", "east]
 
         """
+        self._save_state()
+
         current_location = self.get_location()
         command = f"go {direction}"
         if command in current_location.available_commands:
@@ -118,6 +122,8 @@ class AdventureGame:
 
     def pick_up(self, item_name: str) -> None:
         """Pick up an item from the current location."""
+        self._save_state()
+
         current_location = self.get_location()
         found_item = None
         for item in current_location.items:
@@ -134,6 +140,8 @@ class AdventureGame:
 
     def drop(self, item_name: str) -> None:
         """Drop an item in the current location."""
+        self._save_state()
+
         found_item = None
         for inv_item in self.inventory:
             if inv_item.lower() == item_name.lower():
@@ -190,19 +198,30 @@ class AdventureGame:
         elif item == "toonie" and location_id == 4:  # the lost and found office
             self.score += 5
         elif item in ["waste paper", "food scraps", "waste bottles", "vegetable peelings"] and location_id == 6:
-            self.score += 1
+            self.score += 2
 
     def display_score(self) -> None:
         """Display the player's current score."""
         print(f"Your current score is: {self.score}")
 
+    def _save_state(self) -> None:
+        """Save the current game state for undo functionality."""
+        self.undo_stack.append({
+            "current_location_id": self.current_location_id,
+            "inventory": self.inventory[:],  # Copy list
+            "score": self.score
+        })
+
     def undo(self) -> None:
-        """Undo the last command."""
-        if not self.event_log.is_empty():
-            last_event = self.event_log.remove_last_event()
-            print(f"You undid last action: {last_event}")
+        """Restore the previous game state from the undo stack."""
+        if self.undo_stack:
+            prev_state = self.undo_stack.pop()
+            self.current_location_id = prev_state["current_location_id"]
+            self.inventory = prev_state["inventory"][:]
+            self.score = prev_state["score"]
+            print("Previous action undone.")
         else:
-            print("No action to undo.")
+            print("Nothing to undo!")
 
     def log(self) -> None:
         """Display the event log."""
@@ -210,6 +229,7 @@ class AdventureGame:
 
     def quit(self) -> None:
         """Quit the game."""
+        print("Goodbye.")
         self.ongoing = False
 
 
@@ -252,7 +272,3 @@ if __name__ == "__main__":
             game.drop(item_name)
         else:
             print("Invalid command. Try again.")
-
-
-
-
