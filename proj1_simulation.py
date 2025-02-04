@@ -21,8 +21,6 @@ please consult our Course Syllabus.
 This file is Copyright (c) 2025 CSC111 Teaching Team
 """
 from __future__ import annotations
-
-
 from proj1_event_logger import Event, EventList
 from adventure import AdventureGame
 from game_entities import Location
@@ -36,13 +34,11 @@ class AdventureGameSimulation:
     #   - _events: EventList tracking all game events
     #   - _inventory: Simulated player inventory
     #   - _score: Simulated player score
-    #   - _trash_status: Track which trash items have been properly disposed
 
     _game: AdventureGame
     _events: EventList
     _inventory: list[str]
     _score: int
-    _trash_status: dict[str, bool]
 
     def __init__(self, game_data_file: str, initial_location_id: int, commands: list[str]) -> None:
         """Initialize a new game simulation with full state tracking."""
@@ -50,12 +46,6 @@ class AdventureGameSimulation:
         self._game = AdventureGame(game_data_file, initial_location_id)
         self._inventory = []
         self._score = 0
-        self._trash_status = {
-            "waste-paper": False,
-            "food-scraps": False,
-            "waste bottles": False,
-            "vegetable peelings": False
-        }
 
         initial_location = self._game.get_location()
         self._events.add_event(Event(initial_location.id_num, initial_location.long_description))
@@ -247,4 +237,5 @@ if __name__ == "__main__":
     # assert expected_log == AdventureGameSimulation(...)
 
     # Note: You can add more code below for your own testing purposes
+
 
