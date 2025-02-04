@@ -32,8 +32,6 @@ class Location:
         - available_commands: A dictionary mapping command strings (e.g., 'go north') to target location IDs.
         - items: A list of item names present in this location.
         - visited: A boolean indicating whether the player has visited this location before.
-        - requires_key: Whether this location requires a key to enter.
-        - locked: Whether this location is locked.
 
     Representation Invariants:
         - location_id > 0
@@ -45,9 +43,7 @@ class Location:
     long_description: str
     available_commands: dict[str, int]
     items: list[str]
-    visited: bool
-    requires_key: bool
-    locked: bool
+    visited: bool = False
 
     # This is just a suggested starter class for Location.
     # You may change/add parameters and the data available for each Location object as you see fit.
@@ -65,8 +61,6 @@ class Location:
         self.available_commands = available_commands
         self.items = items
         self.visited = visited
-        self.requires_key = requires_key
-        self.locked = locked
 
 
 @dataclass
@@ -96,6 +90,7 @@ class Item:
     # All item objects in your game MUST be represented as an instance of this class.
 
     name: str
+    description: str
     start_position: int
     target_position: int
     target_points: int
@@ -115,5 +110,6 @@ if __name__ == "__main__":
         'max-line-length': 120,
         'disable': ['R1705', 'E9998', 'E9999']
     })
+
 
 
