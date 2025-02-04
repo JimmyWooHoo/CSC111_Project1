@@ -117,6 +117,7 @@ class AdventureGame:
                 print("You need at least 20 points to enter the reading room.")
             else:
                 self.current_location_id = target_id
+                self.event_log.add_event(Event(self.get_location().id_num, f"Player moved {direction} to location {self.get_location().id_num}"), f"Player moved {direction} to {self.get_location().id_num}")
         else:
             print("You can't go that way.")
 
@@ -129,8 +130,9 @@ class AdventureGame:
         for item in current_location.items:
             if item.lower() == item_name.lower():
                 found_item = item
+                self.event_log.add_event(
+                    Event(self.get_location().id_num, item_name), f"Player picked up {item_name} at location {current_location.id_num}")
                 break
-
         if found_item:
             self.inventory.append(found_item)
             current_location.items.remove(found_item)
@@ -154,6 +156,8 @@ class AdventureGame:
             current_loc.items.append(found_item)
             self.inventory.remove(found_item)
             print(f"You dropped the {found_item}.")
+            self.event_log.add_event(
+                Event(self.get_location().id_num, f"Player dropped {item_name} at location {current_location.id_num}"), f"Player dropped {item_name} at location {current_location.id_num}")
             self._check_item_delivery(found_item)
             self.check_victory()
         else:
@@ -177,6 +181,8 @@ class AdventureGame:
     def look(self) -> None:
         """Display the description of the current location."""
         current_location = self.get_location()
+        self.event_log.add_event(
+            Event(self.get_location().id_num, f"Player looked at {current_location.id_num}"), f"Player looked at location {current_location.id_num}")
         if current_location.visited:
             print(current_location.brief_description)
         else:
@@ -215,12 +221,15 @@ class AdventureGame:
 
     def undo(self) -> None:
         """Restore the previous game state from the undo stack."""
+
         if self.undo_stack:
             prev_state = self.undo_stack.pop()
             self.current_location_id = prev_state["current_location_id"]
             self.inventory = prev_state["inventory"][:]
             self.score = prev_state["score"]
+
             print("Previous action undone.")
+            self.event_log.remove_last_event()
         else:
             print("Nothing to undo!")
 
