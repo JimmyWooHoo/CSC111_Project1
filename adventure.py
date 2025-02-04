@@ -17,18 +17,11 @@ please consult our Course Syllabus.
 
 This file is Copyright (c) 2025 CSC111 Teaching Team
 """
-
 from __future__ import annotations
 import json
-from typing import Optional, Dict, List
+from typing import Optional
 from game_entities import Location, Item
 from proj1_event_logger import Event, EventList
-
-
-def _handle_look(location: Location) -> None:
-    """Handle look command."""
-    print(location.long_description if not location.visited else location.brief_description)
-    location.visited = True
 
 
 class AdventureGame:
@@ -40,7 +33,6 @@ class AdventureGame:
         - score: the player's current score
         - inventory: the items the player is currently carrying
         - event_log: a list of events that have occurred in the game
-        - trash_collected: A mapping recording whether the trash in dorm has been picked up.
 
 
     Representation Invariants:
@@ -54,247 +46,213 @@ class AdventureGame:
 
     _locations: dict[int, Location]
     _items: list[Item]
-    current_location_id: int  # Suggested attribute, can be removed
-    ongoing: bool  # Suggested attribute, can be removed
+    current_location_id: int
+    ongoing: bool
     score: int
     inventory: list[str]
     event_log: EventList
-    trash_collected: dict[str, bool]
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
+        """Initialize a new text adventure game."""
         self._locations, self._items = self._load_game_data(game_data_file)
         self.current_location_id = initial_location_id
         self.ongoing = True
         self.score = 0
         self.inventory = []
         self.event_log = EventList()
-        self.trash_collected = {
-            "waste-paper": False,
-            "food-scraps": False,
-            "waste bottles": False,
-            "vegetable peelings": False
-        }
 
     @staticmethod
-    def _load_game_data(filename: str) -> tuple[Dict[int, Location], List[Item]]:
-        """Load game data with proper command parsing"""
+    def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
+        """Load locations and items from a JSON file."""
         with open(filename, 'r') as f:
             data = json.load(f)
 
         locations = {}
         for loc_data in data['locations']:
-            # Filter only movement commands
-            available_commands = {}
-            for cmd, target_id in loc_data['available_commands'].items():
-                if cmd.startswith("go "):
-                    direction = cmd.split(" ", 1)[1]  # Extract direction part
-                    available_commands[direction] = target_id
-
-            locations[loc_data['id']] = Location(
+            location_obj = Location(
                 loc_data['id'],
                 loc_data['brief_description'],
                 loc_data['long_description'],
-                available_commands,
-                loc_data['items'],
-                loc_data.get('requires_key', False),
-                loc_data.get('locked', False)
+                loc_data['available_commands'],
+                loc_data['items']
             )
+            locations[loc_data['id']] = location_obj
 
-        items = [
-            Item(
-                item['name'],
-                item['start_position'],
-                item['target_position'],
-                item['target_points']
-            ) for item in data['items']
-        ]
+        items = []
+        for item_data in data['items']:
+            item_obj = Item(
+                item_data['name'],
+                item_data['description'],
+                item_data['start_position'],
+                item_data['target_position'],
+                item_data['target_points']
+            )
+            items.append(item_obj)
 
         return locations, items
 
     def get_location(self, loc_id: Optional[int] = None) -> Location:
-        """Get current or specified location"""
-        target_id = loc_id if loc_id is not None else self.current_location_id
-        return self._locations[target_id]
+        """Return Location object associated with the provided location ID."""
+        if loc_id is None:
+            loc_id = self.current_location_id
+        return self._locations[loc_id]
 
-    def handle_command(self, commands: str) -> None:
-        """Process player command with proper item/location handling"""
-        cmd = commands.strip().lower()
-        location = self.get_location()
+    def go(self, direction: str) -> None:
+        """Move the player in the specified direction.
 
-        # Log command before processing
-        self.event_log.add_event(Event(
-            location.id_num,
-            location.long_description,
-            next_command=cmd
-        ))
+        Precondition:
+            - direction in ["north", "south", "west", "east]
 
-        if cmd == "look":
-            _handle_look(location)
-        elif cmd == "inventory":
-            self._handle_inventory()
-        elif cmd == "score":
-            self._handle_score()
-        elif cmd == "undo":
-            self._handle_undo()
-        elif cmd == "log":
-            self._handle_log()
-        elif cmd == "quit":
-            self._handle_quit()
-        elif cmd.startswith("go "):
-            self._handle_movement(cmd, location)
-        elif cmd.startswith("pick up "):
-            self._handle_pickup(cmd, location)
-        elif cmd.startswith("drop "):
-            self._handle_drop(cmd, location)
+        """
+        current_location = self.get_location()
+        command = f"go {direction}"
+        if command in current_location.available_commands:
+            target_id = current_location.available_commands[command]
+            # if the target location is the reading room but the player's current scores are lower than 20, can't go in.
+            if target_id == 7 and self.score < 20:
+                print("You need at least 20 points to enter the reading room.")
+            else:
+                self.current_location_id = target_id
         else:
-            print("Invalid command.")
+            print("You can't go that way.")
 
-    def _handle_inventory(self) -> None:
-        """Show player inventory."""
-        print("Inventory:", self.inventory if self.inventory else "Empty")
+    def pick_up(self, item_name: str) -> None:
+        """Pick up an item from the current location."""
+        current_location = self.get_location()
+        found_item = None
+        for item in current_location.items:
+            if item.lower() == item_name.lower():
+                found_item = item
+                break
 
-    def _handle_score(self) -> None:
-        """Display current score."""
-        print(f"Current score: {self.score}")
+        if found_item:
+            self.inventory.append(found_item)
+            current_location.items.remove(found_item)
+            print(f"You picked up the {found_item}.")
+        else:
+            print(f"There is no {item_name} here.")
 
-    def _handle_undo(self) -> None:
+    def drop(self, item_name: str) -> None:
+        """Drop an item in the current location."""
+        found_item = None
+        for inv_item in self.inventory:
+            if inv_item.lower() == item_name.lower():
+                found_item = inv_item
+                break
+        if found_item:
+            current_loc = self.get_location()
+            if current_loc.items is None:
+                current_loc.items = []
+            current_loc.items.append(found_item)
+            self.inventory.remove(found_item)
+            print(f"You dropped the {found_item}.")
+            self._check_item_delivery(found_item)
+            self.check_victory()
+        else:
+            print(f"You don't have a {item_name}.")
+
+    def _check_item_delivery(self, item_name: str) -> None:
+        """Check if an item has been delivered to its target location."""
+        for item in self._items:
+            if item.name == item_name and self.current_location_id == item.target_position:
+                self.score += item.target_points
+                print(f"You earned {item.target_points} points!")
+
+    def check_victory(self) -> None:
+        """Check if the player win after dropping one item in the dorm."""
+        required_items = {"USB Drive", "laptop charger", "UofT mug"}
+        if all(item in self.inventory for item in required_items):
+            print("Congratulations! You have all the required items and can now finish your project!")
+            self.ongoing = False
+
+    def look(self) -> None:
+        """Display the description of the current location."""
+        current_location = self.get_location()
+        if current_location.visited:
+            print(current_location.brief_description)
+        else:
+            print(current_location.long_description)
+            current_location.visited = True
+
+    def display_inventory(self) -> None:
+        """Display the player's inventory."""
+        if self.inventory:
+            print("Inventory:")
+            for item in self.inventory:
+                print(f"- {item}")
+        else:
+            print("Your inventory is empty.")
+
+    def update_score(self, item: str, location_id: int) -> None:
+        """Update score based on exact item and location"""
+        if item == "textbook" and location_id == 3:  # Robarts Library 1F
+            self.score += 5
+        elif item == "toonie" and location_id == 4:  # the lost and found office
+            self.score += 5
+        elif item in ["waste paper", "food scraps", "waste bottles", "vegetable peelings"] and location_id == 6:
+            self.score += 1
+
+    def display_score(self) -> None:
+        """Display the player's current score."""
+        print(f"Your current score is: {self.score}")
+
+    def undo(self) -> None:
+        """Undo the last command."""
         if not self.event_log.is_empty():
             last_event = self.event_log.remove_last_event()
-            print(f"Undid last action: {last_event}")
+            print(f"You undid last action: {last_event}")
         else:
             print("No action to undo.")
 
-    def _handle_log(self) -> None:
-        """Display event history."""
+    def log(self) -> None:
+        """Display the event log."""
         self.event_log.display_events()
 
-    def _handle_quit(self) -> None:
-        """End game session."""
+    def quit(self) -> None:
+        """Quit the game."""
         self.ongoing = False
-        print("Thanks for playing!")
-
-    def _handle_movement(self, commands: str, current_location: Location) -> None:
-        """Process movement commands from formatted game data"""
-        direction = commands.split(" ", 1)[1]
-        target_id = current_location.available_commands.get(direction)
-
-        if target_id is None:
-            print("Can't go that way.")
-            return
-
-        target_loc = self.get_location(target_id)
-        if target_loc.locked:
-            if self._check_unlock_condition(target_loc):
-                target_loc.locked = False
-                print(f"The {target_loc.id_num} is now unlocked!")
-            else:
-                print("This location is locked. You can't go there yet.")
-                return
-
-        self.current_location_id = target_id
-        print(f"Moved {direction} to {target_loc.brief_description}")
-
-    def _check_unlock_condition(self) -> bool:
-        """Check if the location is unlocked based on certain conditions"""
-        if "key" in self.inventory:
-            return True
-        else:
-            return False
-
-    def _handle_pickup(self, commands: str, location: Location) -> None:
-        """Process item pickup with exact name matching"""
-        item_name = commands.split("pick up ", 1)[1].strip()
-
-        # Handle case-sensitive matching from JSON
-        actual_name = next((item for item in location.items if item.lower() == item_name.lower()), None)
-
-        if actual_name:
-            self.inventory.append(actual_name)
-            location.items.remove(actual_name)
-            print(f"Picked up {actual_name}!")
-        else:
-            print(f"{item_name} not found here.")
-
-    def _handle_drop(self, commands: str, location: Location) -> None:
-        """Process item drop with exact name matching"""
-        item_name = commands.split("drop ", 1)[1].strip()
-
-        # Find case-sensitive match in inventory
-        actual_name = next((item for item in self.inventory if item.lower() == item_name.lower()), None)
-
-        if not actual_name:
-            print(f"Not carrying {item_name}.")
-            return
-
-        self.inventory.remove(actual_name)
-        location.items.append(actual_name)
-        print(f"Dropped {actual_name}.")
-
-        # Update scoring and check for special conditions
-        self._update_score(actual_name, location.id_num)
-        self._check_trash_disposal(actual_name, location.id_num)
-        self._check_key_unlock()
-
-    def _update_score(self, item: str, location_id: int) -> None:
-        """Update score based on exact item/location matches"""
-        if item == "textbook" and location_id == 3:  # Robarts Library 1F
-            self.score += 2
-        elif item == "toonie" and location_id == 4:  # the lost and found office
-            self.score += 5
-        elif item in self.trash_collected and location_id == 6:  # Trash can
-            self.score += 1
-
-    def _check_trash_disposal(self, item: str, location_id: int) -> None:
-        """Track trash items disposed in correct location"""
-        if location_id == 6 and item in self.trash_collected:
-            self.trash_collected[item] = True
-
-    def _check_key_unlock(self) -> None:
-        """Check if all trash collected and award key"""
-        if all(self.trash_collected.values()):
-            if "locker key" not in self.inventory:
-                self.inventory.append("locker key")
-                print("A locker key falls out of the trash can! You pick it up automatically.")
-
-    def check_win_condition(self) -> bool:
-        """Check win state with exact item names"""
-        required_items = {"laptop charger", "USB Drive", "UofT mug"}
-        return all(item in self.inventory for item in required_items) and self.score >= 10
 
 
 if __name__ == "__main__":
-    import python_ta
 
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['R1705', 'E9998', 'E9999']
-    })
-
-    game = AdventureGame('game_data.json', 0)  # Start at dorm (ID 0)
+    game = AdventureGame('game_data.json', 0)
+    game_log = EventList()
+    menu = ["look", "inventory", "score", "undo", "log", "quit"]
 
     while game.ongoing:
-        current_loc = game.get_location()
-        if not current_loc.visited:
-            print(f"\nLOCATION {current_loc.id_num}\n{current_loc.long_description}")
-            current_loc.visited = True
+        current_location = game.get_location()
+        print("\n" + current_location.brief_description)
+        print("What to do? Choose from: look, inventory, score, undo, log, quit")
+        print("At this location, you can also:")
+        for action in current_location.available_commands:
+            print(f"- {action}")
+
+        choice = input("\nEnter action: ").lower().strip()
+
+        if choice == "look":
+            game.look()
+        elif choice == "inventory":
+            game.display_inventory()
+        elif choice == "score":
+            game.display_score()
+        elif choice == "undo":
+            game.undo()
+        elif choice == "log":
+            game.log()
+        elif choice == "quit":
+            game.quit()
+        elif choice.startswith("go "):
+            direction = choice.split(" ")[1]
+            game.go(direction)
+        elif choice.startswith("pick up "):
+            item_name = choice.split("pick up ", 1)[1]
+            game.pick_up(item_name)
+        elif choice.startswith("drop "):
+            item_name = choice.split("drop ", 1)[1]
+            game.drop(item_name)
         else:
-            print(f"\nLOCATION {current_loc.id_num}\n{current_loc.brief_description}")
+            print("Invalid command. Try again.")
 
-        # Show available actions
-        print("\nAvailable actions:")
-        print("- " + "\n- ".join(current_loc.available_commands.keys()))
-        print("- look\n- inventory\n- score\n- undo\n- log\n- quit")
-        if current_loc.items:
-            print("- pick up " + "\n- pick up ".join(current_loc.items))
-
-        command = input("\nEnter command: ").strip()
-
-        game.handle_command(command)
-
-        if game.check_win_condition():
-            print("\n=== YOU WIN! ===")
-            print("Collected all required items with sufficient score!")
-            game.ongoing = False
 
 
 
