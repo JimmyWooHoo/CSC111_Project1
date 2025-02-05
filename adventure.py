@@ -104,17 +104,23 @@ class AdventureGame:
         """Move the player in the specified direction.
 
         Precondition:
-            - direction in ["north", "south", "west", "east]
+            - direction in ["north", "south", "west", "east"]
 
         """
         self._save_state()
         current_location = self.get_location()
         command = f"go {direction}"
+
         if command in current_location.available_commands:
             target_id = current_location.available_commands[command]
-            # if the target location is the reading room but the player's current scores are lower than 20, can't go in.
+
+            # Check for restricted area (Reading Room, ID 7) with a score threshold
             if target_id == 7 and self.score < 20:
                 print("You need at least 20 points to enter the reading room.")
+                self.event_log.add_event(
+                    Event(self.current_location_id, "attempted go north"),
+                    "Attempted to enter the reading room with insufficient points"
+                )
             else:
                 self.current_location_id = target_id
                 self.event_log.add_event(Event(self.get_location().id_num, direction),
