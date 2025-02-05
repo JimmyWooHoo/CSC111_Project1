@@ -194,10 +194,8 @@ class AdventureGame:
         current_location = self.get_location()
         self.event_log.add_event(
             Event(self.get_location().id_num, "Player looked"), f"Player looked at location {current_location.id_num}")
-        if current_location.visited:
-            print(current_location.brief_description)
-        else:
-            print(current_location.long_description)
+        print(current_location.long_description)
+        if not current_location.visited:
             current_location.visited = True
 
     def display_inventory(self) -> None:
@@ -217,7 +215,7 @@ class AdventureGame:
         """Save the current game state for undo functionality."""
         self.undo_stack.append({
             "current_location_id": self.current_location_id,
-            "inventory": self.inventory[:],  # Copy list
+            "inventory": self.inventory[:],
             "score": self.score
         })
 
@@ -260,7 +258,10 @@ if __name__ == "__main__":
 
     while game.ongoing:
         current_location = game.get_location()
-        print("\n" + current_location.brief_description)
+        if current_location.visited:
+            print("\n" + current_location.brief_description)
+        else:
+            print("\n" + current_location.long_description)
         print("What to do? Choose from: look, inventory, score, undo, log, quit")
         print("At this location, you can also:")
         for action in current_location.available_commands:
@@ -299,3 +300,4 @@ if __name__ == "__main__":
             moves_taken += 1
         else:
             print("Invalid command. Try again.")
+
