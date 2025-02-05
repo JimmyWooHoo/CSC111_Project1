@@ -144,7 +144,7 @@ class UndoSystem:
     """
     undo_stack: list
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize an empty undo stack.
 
@@ -153,7 +153,7 @@ class UndoSystem:
         """
         self.undo_stack = []
 
-    def save_state(self, game_state: dict):
+    def save_state(self, game_state: dict) -> None:
         """
         Save a copy of the current game state before an action is performed.
 
@@ -164,7 +164,7 @@ class UndoSystem:
         """
         self.undo_stack.append(game_state.copy())
 
-    def undo(self):
+    def undo(self) -> None:
         """
         Revert the game to the last saved state.
 
@@ -191,3 +191,4 @@ if __name__ == "__main__":
         'max-line-length': 120,
         'disable': ['R1705', 'E9998', 'E9999']
     })
+
