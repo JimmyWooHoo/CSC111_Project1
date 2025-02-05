@@ -6,68 +6,118 @@
 \usepackage[margin=0.75in]{geometry}
 
 \title{CSC111 Winter 2025 Project 1}
-\author{TODO: FILL IN YOUR NAME(S) HERE}
+\author{Jiaqi Zhao, Songxuan Wu}
 \date{\today}
 
 \begin{document}
 \maketitle
 
 \section*{Running the game}
-We should be able to run your game by simply running \texttt{adventure.py}. If you have any other requirements (e.g., installing certain modules), describe them here. Otherwise, skip this section.
+Anyone should be able to run our game by simply running \texttt{adventure.py}.
 
 \section*{Game Map}
-Example game map below (edit it to show your actual game map):
 
 \begin{verbatim}
-  1  2  3
- -1  4 -1
- -1  5 -1
+        2  6
+        5  0
+        4  1
+        7  3
 \end{verbatim}
 
-Starting location is: 1
+Starting location is: 0
+
+Location 2, 5, 4, 7 can only be accessed from 6, 0, 1, 3 respectively.
 
 \section*{Game solution}
-List of commands:
+List of commands: [
+        ``look", ``pick up waste paper", ``pick up food scraps", ``pick up waste bottles", ``pick up vegetable peelings", ``go north", ``look", ``drop waste paper", ``drop food scraps", ``drop waste bottles", ``drop vegetable peelings", ``go west", ``look", ``pick up USB Drive", ``go east", ``go south", ``drop USB Drive", ``go west", ``look", ``pick up UofT mug", ``go east", ``drop UofT mug", ``go south", ``look", ``pick up toonie", ``go west", ``look", ``drop toonie", ``go east", ``pick up textbook", ``go south", ``look", ``drop textbook", ``go west", ``look", ``pick up laptop charger", ``go east", ``go north", ``go north", ``drop laptop charger"
+    ]
 
 \section*{Lose condition(s)}
-Description of how to lose the game:
+Description of how to lose the game: Reach the maximum number of steps before returning the three required items (UofT mug, laptop charger, and USB Drive) back to dorm (and droping the items).
 
 List of commands:
 
+[``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'', ``go north'', ``go south'']
+
 Which parts of your code are involved in this functionality:
+
+We create a constant ALLOWED\_NUMBER\_OF\_MOVES and set it to 50. We also create a variable moves\_taken to count the number of moves by player. Each time player does a move (go in a certain direction, pick up or drop something, or look), the variable moves\_take is added one. Inside the main game loop, we check if the moves\_taken exceeds the ALLOWED\_NUMBER\_OF\_MOVES. If it does, the message "You have exhausted allowed number of moves. The project is due. You lost." is displayed, and the game.quit() method is then called.
 
 % Copy-paste the above if you have multiple lose conditions and describe each possible way to lose the game
 
 \section*{Inventory}
 
 \begin{enumerate}
-\item All location IDs that involve items in the game:
+\item All location IDs that involve items in the game: 0, 1, 2, 5, 7
 
 \item Item data:
 \begin{enumerate}
     \item For Item 1:
     \begin{itemize}
-    \item Item name:
-    \item Item start location ID:
-    \item Item target location ID:
+    \item Item name: UofT mug
+    \item Item start location ID: 5
+    \item Item target location ID: 0
     \end{itemize}
         \item For Item 2:
     \begin{itemize}
-    \item Item name:
-    \item Item start location ID:
-    \item Item target location ID:
+    \item Item name: laptop charger
+    \item Item start location ID: 7
+    \item Item target location ID: 0
     \end{itemize}
         \item For Item 3:
     \begin{itemize}
-    \item Item name:
-    \item Item start location ID:
-    \item Item target location ID:
+    \item Item name: USB Drive
+    \item Item start location ID: 2
+    \item Item target location ID: 0
+    \end{itemize}
+        \item For Item 4:
+    \begin{itemize}
+    \item Item name: toonie
+    \item Item start location ID: 1
+    \item Item target location ID: 4
+    \end{itemize}
+        \item For Item 5:
+    \begin{itemize}
+    \item Item name: waste paper
+    \item Item start location ID: 0
+    \item Item target location ID: 6
+    \end{itemize}
+        \item For Item 6:
+    \begin{itemize}
+    \item Item name: food scraps
+    \item Item start location ID: 0
+    \item Item target location ID: 6
+    \end{itemize}
+        \item For Item 7:
+    \begin{itemize}
+    \item Item name: waste bottle
+    \item Item start location ID: 0
+    \item Item target location ID: 6
+    \end{itemize}
+        \item For Item 8:
+    \begin{itemize}
+    \item Item name: vegetable peelings
+    \item Item start location ID: 0
+    \item Item target location ID: 6
+    \end{itemize}
+        \item For Item 9:
+    \begin{itemize}
+    \item Item name: textbook
+    \item Item start location ID: 1
+    \item Item target location ID: 3
     \end{itemize}
     % Copy-paste the above if you have more items, to list ALL items
 \end{enumerate}
 
     \item Exact command(s) that should be used to pick up an item (choose any one item for this example), and the command(s) used to use/drop the item (can copy the list you assigned to \texttt{inventory\_demo} in the \texttt{project1\_simulation.py} file)
+
+    For item ``waste paper", the command ``pick up waste paper" should be used to pick it up, and the command ``drop waste paper" should be used to drop it down.
+
     \item Which parts of your code (file, class, function/method) are involved in handling the \texttt{inventory} command:
+
+    In Class AdventureGame, the inventory is directly managed by the pick up and drop methods, and the display of the inventory is handled by the display\_inventory method. Besides, in the main game loop, display\_inventory method is called if player enters command ``inventory".
+
 \end{enumerate}
 
 \section*{Score}
@@ -75,11 +125,17 @@ Which parts of your code are involved in this functionality:
 
     \item Briefly describe the way players can earn scores in your game. Include the first location in which they can increase their score, and the exact list of command(s) leading up to the score increase:
 
+    Players can earn points when they deliver items to their target locations. Each item has a target\_position and target\_points attribute, which dictates where the item needs to be dropped and how many points the player will earn from this delivery. The first location in which they can increase their score is ``Trash Can", simply by picking up any trash in ``Dorm" and dropping it in ``Trash Can". The list of commands: [``pick up waste paper", ``go north", ``drop waste paper"].
+
 
     \item Copy the list you assigned to \texttt{scores\_demo} in the \texttt{project1\_simulation.py} file into this section of the report:
 
+    ["score", "go south", "pick up toonie", "go west", "drop toonie", "score"]
 
     \item Which parts of your code (file, class, function/method) are involved in handling the \texttt{score} functionality:
+
+    In Class AdventureGame, the method \_check\_item\_delivery checks if an item has been delivered to its target location and updates the player's score accordingly. This method is called when an item is dropped at a location. If the item’s target position matches the current location, it adds the item's associated points to the player's score. The method display\_score simply prints the current score. In the main game loop, display\_score is called when the player inputs the ``score" command.
+
 \end{enumerate}
 
 \section*{Enhancements}
@@ -87,18 +143,45 @@ Which parts of your code are involved in this functionality:
     \item Describe your enhancement \#1 here
     \begin{itemize}
         \item Brief description of what the enhancement is (if it's a puzzle, also describe what steps the player must take to solve it):
-        \item Complexity level (choose from low/medium/high):
+
+        In addition to the USB Drive, laptop charger, and UofT Mug, we added six more items to the game. By reading the provided context during the game play, the items can be found and their target locations can be reasoned. Player's score will be increased accordingly by delivering each item to target locations.
+
+        \item Complexity level (choose from low/medium/high): medium
         \item Reasons you believe this is the complexity level (e.g., mention implementation details, how much code did you have to add/change from the baseline, what challenges did you face, etc.)
+
+        Implementing the six new items required defining their names, descriptions, start positions, target locations, and points, creating additional entries in the JSON file. We also had to ensure the game correctly recognizes the new items and their properties. An unexpected challenge is designing the map of the game based on the items' start and target positions. We try our best to not make the route to win the game too complicated, so it was moderately difficult to create the map based on items' properties.
+
     \end{itemize}
 
     % Uncomment below section if you have more enhancements; copy-paste as needed
-    %\item Describe your enhancement here
-    %\begin{itemize}
-    %    \item Basic description of what the enhancement is:
-    %    \item Complexity level (low/medium/high):
-    %    \item Reasons you believe this is the complexity level (e.g., mention implementation details)
-    %\end{itemize}
+    \item Describe your enhancement \#2 here
+    \begin{itemize}
+       \item Basic description of what the enhancement is:
+
+        This is a puzzle. The laptop charger is in the Reading Room. However, a player has to earn at least 20 points to enter the Reading Room. Therefore, the player must walk around the map and discover opportunities to increase scores. For example, dropping each trash into the trash can gives 2 points. The player must try different tasks to get at least 20 points before winning the game.
+
+       \item Complexity level (low/medium/high): medium
+       \item Reasons you believe this is the complexity level (e.g., mention implementation details)
+
+        We had the update\_score method to handle point increases for items or actions, and we had to upgrade it to the \_check\_item\_delivery method to make sure the scores are added accordingly since each item has different target points. We also implemented a score threshold for accessing the Reading Room. This part is fairly straight forward,
+        but we had more thoughts on selecting the minimum score to access, which will be discussed more in the next section.
+    \end{itemize}
+
+     \item Describe your enhancement \#3 here
+    \begin{itemize}
+       \item Basic description of what the enhancement is:
+
+        This is more of a hidden puzzle or enhancement. We landed on that a player needs at least 20 points to enter the Reading Room, but there are many ways to achieve this. The total possible score exceeds 20, and item deliveries are worth different number of scores. Therefore, although it is not explicitly expressed in the game, the player can and is encouraged to find the best way or fastest way or shortest way to reach 20 points.
+
+       \item Complexity level (low/medium/high): medium
+       \item Reasons you believe this is the complexity level (e.g., mention implementation details)
+
+        Except for assigning items target points and increase player's score accordingly, coding is not a big part for this enhancement. This one focus on uncovering various ways to earn points, which encourages the player to explore multiple tasks and strategies. The player is not told the best way to reach 20 points, but is informed the achieved score and the number of moves taken after winning the game. Therefore, the player might play the game one more time and look for better strategies.
+
+    \end{itemize}
 \end{enumerate}
+
+
 
 
 \end{document}
