@@ -60,6 +60,7 @@ class AdventureGame:
         self.score = 0
         self.inventory = []
         self.event_log = EventList()
+        self.event_log.add_event(Event(self.current_location_id, "Game starts"), "Game starts")
         self.undo_system = UndoSystem()  # Create UndoSystem instance
         self.undo_stack = []  # Additional stack to properly track previous states
 
@@ -107,7 +108,6 @@ class AdventureGame:
 
         """
         self._save_state()
-
         current_location = self.get_location()
         command = f"go {direction}"
         if command in current_location.available_commands:
@@ -117,7 +117,8 @@ class AdventureGame:
                 print("You need at least 20 points to enter the reading room.")
             else:
                 self.current_location_id = target_id
-                self.event_log.add_event(Event(self.get_location().id_num, f"Player moved {direction} to location {self.get_location().id_num}"), f"Player moved {direction} to location {self.get_location().id_num}")
+                self.event_log.add_event(Event(self.get_location().id_num, direction),
+                                         f"Player moved {direction} to location {self.get_location().id_num}")
         else:
             print("You can't go that way.")
 
@@ -131,7 +132,8 @@ class AdventureGame:
             if item.lower() == item_name.lower():
                 found_item = item
                 self.event_log.add_event(
-                    Event(self.get_location().id_num, item_name), f"Player picked up {item_name} at location {current_location.id_num}")
+                    Event(self.get_location().id_num, item_name),
+                    f"Player picked up {item_name} at location {current_location.id_num}")
                 break
         if found_item:
             self.inventory.append(found_item)
@@ -157,7 +159,8 @@ class AdventureGame:
             self.inventory.remove(found_item)
             print(f"You dropped the {found_item}.")
             self.event_log.add_event(
-                Event(self.get_location().id_num, f"Player dropped {item_name} at location {current_location.id_num}"), f"Player dropped {item_name} at location {current_location.id_num}")
+                Event(self.get_location().id_num, item_name),
+                f"Player dropped {item_name} at location {current_location.id_num}")
             self._check_item_delivery(found_item)
             self.check_victory()
         else:
@@ -176,13 +179,15 @@ class AdventureGame:
         dorm = self.get_location(0)  # Assuming dorm is location ID 0
         if all(item in dorm.items for item in required_items):
             print("Congratulations! You have dropped all required items in the dorm and can now finish your project!")
+            print(f"Your final score is {self.score}, good job!")
+            print(f"Total moves: {moves_taken} ")
             self.ongoing = False
 
     def look(self) -> None:
         """Display the description of the current location."""
         current_location = self.get_location()
         self.event_log.add_event(
-            Event(self.get_location().id_num, f"Player looked at {current_location.id_num}"), f"Player looked at location {current_location.id_num}")
+            Event(self.get_location().id_num, "Player looked"), f"Player looked at location {current_location.id_num}")
         if current_location.visited:
             print(current_location.brief_description)
         else:
@@ -246,9 +251,15 @@ class AdventureGame:
 if __name__ == "__main__":
 
     game = AdventureGame('game_data.json', 0)
-    game_log = EventList()
     menu = ["look", "inventory", "score", "undo", "log", "quit"]
-    steps_limit = 50
+    ALLOWED_NUMBER_OF_MOVES = 50
+    moves_taken = 0
+
+    print("Your CS project is due soon. However, you are missing some key items, namely, your USB drive, "
+          "laptop charger, and lucky UofT mug. Retrieve them back to dorm to win the game. There might be some areas "
+          "on campus that requires minimum scores to access. Walk around and discover means of earning scores. Each "
+          "time you go in a direction, pick up or drop an item, or undo your last action is counted as 1 move. Your "
+          "are allowed 50 moves, now better hurry up!")
 
     while game.ongoing:
         current_location = game.get_location()
@@ -258,8 +269,8 @@ if __name__ == "__main__":
         for action in current_location.available_commands:
             print(f"- {action}")
 
-        if steps_limit < 0:
-            print("You have reached the steps limit before returning 3 required items back to dorm. You lost.")
+        if moves_taken > ALLOWED_NUMBER_OF_MOVES:
+            print("You have exhausted allowed number of moves. The project is due. You lost.")
             game.quit()
 
         choice = input("\nEnter action: ").lower().strip()
@@ -272,7 +283,7 @@ if __name__ == "__main__":
             game.display_score()
         elif choice == "undo":
             game.undo()
-            steps_limit -= 1
+            moves_taken += 1
         elif choice == "log":
             game.log()
         elif choice == "quit":
@@ -280,14 +291,14 @@ if __name__ == "__main__":
         elif choice.startswith("go "):
             direction = choice.split(" ")[1]
             game.go(direction)
-            steps_limit -= 1
+            moves_taken += 1
         elif choice.startswith("pick up "):
             item_name = choice.split("pick up ", 1)[1]
             game.pick_up(item_name)
-            steps_limit -= 1
+            moves_taken += 1
         elif choice.startswith("drop "):
             item_name = choice.split("drop ", 1)[1]
             game.drop(item_name)
-            steps_limit -= 1
+            moves_taken += 1
         else:
             print("Invalid command. Try again.")
