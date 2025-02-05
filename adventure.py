@@ -209,15 +209,6 @@ class AdventureGame:
         else:
             print("Your inventory is empty.")
 
-    def update_score(self, item: str, location_id: int) -> None:
-        """Update score based on exact item and location"""
-        if item == "textbook" and location_id == 3:  # Robarts Library 1F
-            self.score += 5
-        elif item == "toonie" and location_id == 4:  # the lost and found office
-            self.score += 5
-        elif item in ["waste paper", "food scraps", "waste bottles", "vegetable peelings"] and location_id == 6:
-            self.score += 2
-
     def display_score(self) -> None:
         """Display the player's current score."""
         print(f"Your current score is: {self.score}")
