@@ -139,12 +139,12 @@ if __name__ == "__main__":
     sim = AdventureGameSimulation('game_data.json', 0, lose_demo)
     assert expected_log == sim.get_id_log()
 
-    inventory_demo = ["go south", "pick up textbook", "inventory", "go north", "pick up toonie", "inventory"]
-    expected_log = [0, 0, 1, 0]
+    inventory_demo = ["pick up waste paper", "inventory", "go north", "drop waste paper", "inventory"]
+    expected_log = [0, 0, 6]
     sim = AdventureGameSimulation('game_data.json', 0, inventory_demo)
     assert expected_log == sim.get_id_log()
 
-    scores_demo = ["go north", "drop waste paper", "drop food scraps", "score"]
-    expected_log = [0, 0, 6]
+    scores_demo = ["score", "go south", "pick up toonie", "go west", "drop toonie", "score"]
+    expected_log = [0, 0, 1, 4]
     sim = AdventureGameSimulation('game_data.json', 0, scores_demo)
     assert expected_log == sim.get_id_log()
