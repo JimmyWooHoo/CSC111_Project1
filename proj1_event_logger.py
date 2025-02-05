@@ -95,6 +95,7 @@ class EventList:
 
         if self.is_empty():
             self.first = event
+            self.last = event
         else:
             self.last.next = event
             self.last.next_command = command
@@ -141,6 +142,7 @@ class UndoSystem:
     This system keeps track of past game states using a stack data structure.
     Players can revert their most recent action by using the 'undo' command.
     """
+    undo_stack: list
 
     def __init__(self):
         """
@@ -177,7 +179,6 @@ class UndoSystem:
         else:
             print("Nothing to undo!")
             return None
-
 
 
 if __name__ == "__main__":
