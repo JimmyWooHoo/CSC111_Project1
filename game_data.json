@@ -1,186 +1,195 @@
 {
-  "locations": [
+  "locations" : [
     {
-      "id": 0,
-      "name": "dorm 4F",
-      "brief_description": "You are in your messy room on the 4th floor of dorm building. There is a trash can to the north. There is some time left before the deadline of your CS project, but in your sleep-deprived state you've just realized that you are missing three key items...",
-      "long_description": "You are in your dorm room. There is a trash can to the north. After sleeping for a while, you wake up in a panic. Your messy room has so much rubbish. You still have some time left (phew), but in your sleep-deprived state you didn't realize that you are missing some key items (and you can't remember where you last saw them)! Your USB drive (the only copy of your game, because of course you forgot to back it up), your laptop charger (your battery was at 5% when you sat down), and—worst of all—your lucky UofT mug. You can't possibly submit your project without them! ",
-      "available_commands": {
-        "pick up waste paper": 0,
-        "pick up food scraps": 0,
-        "pick up waste bottles": 0,
-        "pick up vegetable peelings": 0,
-        "go north": 6,
-        "go south": 1,
-        "go west": 5,
-        "drop USB Drive": 0,
-        "drop laptop charger": 0,
-        "drop UofT mug": 0
+      "id" : 0,
+      "name" : "dorm 4F",
+      "brief_description" : "You are in your room on the 4th floor of dorm building. There is a trash can to the north, Bahen Center to the south, and Starbucks to the west. Go find your 3 items and bring them back.",
+      "long_description" : "You are in your dorm room where there is so much rubbish. Looking around, you see waste paper, food scraps, waste bottles, and even vegetable peelings. They don't belong here! There is a trash can to the north. Might wanna clean it up...",
+      "available_commands" : {
+        "pick up waste paper" : 0,
+        "pick up food scraps" : 0,
+        "pick up waste bottles" : 0,
+        "pick up vegetable peelings" : 0,
+        "go north" : 6,
+        "go south" : 1,
+        "go west" : 5,
+        "drop USB Drive" : 0,
+        "drop laptop charger" : 0,
+        "drop UofT mug" : 0
       },
-      "items": ["waste paper", "food scraps", "waste bottles", "vegetable peelings"],
-      "visited": false
+      "items" : [
+        "waste paper",
+        "food scraps",
+        "waste bottles",
+        "vegetable peelings"
+      ],
+      "visited" : false
     },
     {
-      "id": 1,
-      "name": "Bahen 1F",
-      "brief_description": "You are on the first floor of the Bahen Center. Your dorm is to the north. There is the lost and found office on the second floor of Bahen. An elevator is in the west corner. You see something shiny on the ground -- looks like a toonie?",
-      "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. If you can help him to carry the textbook to the library, you can earn some scores as reward. There is an elevator in the west corner. You can take it to the lost and found office.",
-      "available_commands": {
-        "go north": 0,
-        "go south": 3,
-        "go west": 4,
-        "pick up toonie": 1,
-        "pick up textbook": 1
+      "id" : 1,
+      "name" : "Bahen 1F",
+      "brief_description" : "You are on the first floor of the Bahen Center. Your dorm is to the north. There is a lost and found office on the second floor of Bahen, which can be accessed by an elevator in the west corner. Robarts library is to the south.",
+      "long_description" : "You are on the first floor of the Bahen Center. You see something shiny on the ground, looks like a toonie? Maybe someone lost it? One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. Looks like he is heading to Robarts library. You might get rewarded for helping him deliver the textbook.",
+      "available_commands" : {
+        "go north" : 0,
+        "go south" : 3,
+        "go west" : 4,
+        "pick up toonie" : 1,
+        "pick up textbook" : 1
       },
-      "items": ["toonie", "textbook"],
-      "visited": false
+      "items" : [
+        "toonie",
+        "textbook"
+      ],
+      "visited" : false
     },
     {
-      "id": 2,
-      "name": "locker",
-      "brief_description": "This is your locker. There are a lot of your important stuffs in this locker. The trash can is to the east.",
-      "long_description": "This is your locker. May be here are some items which you want to find. Thanks to your sleep deficiency, you forgot to lock your locker so you can open it! The trash can is to the east.",
-      "available_commands": {
-        "go east": 6,
-        "pick up USB Drive": 6
+      "id" : 2,
+      "name" : "locker",
+      "brief_description" : "This is your locker. There is a lot of important stuff in the locker. The trash can is to the east.",
+      "long_description" : "This is your locker. Maybe there are items you wish to find. Thanks to your sleep deficiency, you forgot to lock your locker so now you can open it! Wait... Is this my USB Drive in the locker?",
+      "available_commands" : {
+        "go east" : 6,
+        "pick up USB Drive" : 6
       },
-      "items": ["USB Drive"],
-      "visited": false
+      "items" : [
+        "USB Drive"
+      ],
+      "visited" : false
     },
     {
-      "id": 3,
-      "name": "Robarts Library 1F",
-      "brief_description": "You are on the first floor of the Robarts Library. There is a reading room to the west.",
-      "long_description": "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not to disturb them. During your campus life, the reading room to the north is your favourite place to study.",
-      "available_commands": {
-        "go north": 1,
-        "go west": 7,
-        "drop textbook": 3
+      "id" : 3,
+      "name" : "Robarts Library 1F",
+      "brief_description" : "You are on the first floor of the Robarts Library. There is a reading room to the west. Bahen Center is to the north.",
+      "long_description" : "You are on the first floor of the Robarts Library. Many students are studying here. You'd better not disturb them. During your campus life, the reading room to the west is your favourite place to study, and it's also one of the most popular places on campus. Should you pay a visit?",
+      "available_commands" : {
+        "go north" : 1,
+        "go west" : 7,
+        "drop textbook" : 3
       },
-      "items": [],
-      "visited": false
+      "items" : [],
+      "visited" : false
     },
     {
-      "id": 4,
-      "name": "lost and found office",
-      "brief_description": "You are in the lost and found office. You can see a couch in the corner. A cute little girl is crying on the couch and shouting 'Where is my toonie!'",
-      "long_description": "You are in the lost and found office of Bahen. You noticed that on the couch to the east, a cute little girl is crying and shouting 'Where is my toonie! It is a priceless toonie produced in 1996 and it's my 16th birthday present from my mom!'",
-      "available_commands":{
-        "go east": 1,
-        "drop toonie": 4
+      "id" : 4,
+      "name" : "lost and found office",
+      "brief_description" : "You are in the lost and found office. The only exit is to the east.",
+      "long_description" : "You are in the lost and found office of Bahen. You noticed that on a couch, a cute little girl is crying and shouting 'Where is my toonie! It is a priceless toonie produced in 1996 and it's my 16th birthday gift from my mom!' Seems like she needs some comfort.",
+      "available_commands" : {
+        "go east" : 1,
+        "drop toonie" : 4
       },
-      "items": [],
-      "visited": false
+      "items" : [],
+      "visited" : false
     },
     {
-      "id": 5,
-      "name": "Starbucks",
-      "brief_description": "You are in the Starbucks. Your dorm is to the east. It seems like the salesperson are looking for someone...",
-      "long_description": "You are in the Starbucks. The salesperson arelooking for the owner of a beautiful mug. There is a logo of 'University of Toronto' on this mug. OMG! You are really sure it is your lucky mug! ",
-      "available_commands":{
-        "pick up UofT mug": 5,
-        "go east": 0
+      "id" : 5,
+      "name" : "Starbucks",
+      "brief_description" : "You are in the Starbucks. Your dorm is to the east.",
+      "long_description" : "You are in the Starbucks. The clerk is looking for the owner of a beautiful mug. There is a logo of 'University of Toronto' on this mug. OMG! Isn't this what I've been looking for?",
+      "available_commands" : {
+        "pick up UofT mug" : 5,
+        "go east" : 0
       },
-      "items": ["UofT mug"],
-      "visited": false
+      "items" : [
+        "UofT mug"
+      ],
+      "visited" : false
     },
     {
-      "id": 7,
-      "name": "reading room",
-      "brief_description": "The seats in the reading room are limited. You can only access the reading room when you have at least 10 scores. This is your favorite place for studying. There is the lost and found office to the north.",
-      "long_description": "You are in the reading room, whose access is only possible with at least 10 scores. It is possible for you to left some stuffs in this room because you always come here to study. There is the lost and found office to the north but there is no passage between it and the reading room ",
-      "available_commands": {
-        "go east": 3,
-        "pick up laptop charger": 7
+      "id" : 7,
+      "name" : "reading room",
+      "brief_description" : "This is the reading room, only accessable when your score is at least 20. The exit to Robarts Library is to the east.",
+      "long_description" : "You are in the reading room. The seats are limited, so people can only access the reading room when score is at least 20. This is always your go-to place for studying. Possibly, you left something in this room.",
+      "available_commands" : {
+        "go east" : 3,
+        "pick up laptop charger" : 7
       },
-      "items": ["laptop charger"],
-      "visited": false
+      "items" : [
+        "laptop charger"
+      ],
+      "visited" : false
     },
     {
-      "id": 6,
-      "name": "trash can",
-      "brief_description": "You are besides the trash can. Your dorm is to the south and your locker is to the west.",
-      "long_description": "You are besides the trash can. The manager of your dorm recommends residents do not litter. Thus, if you put your garbage in the right place, you may earn some scores as reward from the manager. Your dorm is to the south and your locker is to the west.",
-      "available_commands":{
-        "drop waste paper": 6,
-        "drop food scraps": 6,
-        "drop waste bottles": 6,
-        "drop vegetable peelings": 6,
-        "go south": 0,
-        "go west": 2
+      "id" : 6,
+      "name" : "trash can",
+      "brief_description" : "You are besides the trash can. Your dorm is to the south and your locker is to the west.",
+      "long_description" : "You are besides the trash can. The manager of your dorm recommends residents do not litter. Thus, if you put your garbage in the right place, you may earn some scores as rewards from the manager.",
+      "available_commands" : {
+        "drop waste paper" : 6,
+        "drop food scraps" : 6,
+        "drop waste bottles" : 6,
+        "drop vegetable peelings" : 6,
+        "go south" : 0,
+        "go west" : 2
       },
-      "items": [],
-      "visited": false
+      "items" : [],
+      "visited" : false
     }
   ],
-  "items": [
+  "items" : [
     {
-      "name": "toonie",
-      "description": "There is a toonie on the ground. Someone must have dropped it.",
-      "start_position": 1,
-      "target_position": 4,
-      "target_points": 5
+      "name" : "toonie",
+      "description" : "There is a toonie on the ground. Someone must have dropped it.",
+      "start_position" : 1,
+      "target_position" : 4,
+      "target_points" : 5
     },
     {
-      "name": "waste paper",
-      "description": "There is a piece of waste paper on the ground, and it is not where it belongs.",
-      "start_position": 0,
-      "target_position": 6,
-      "target_points": 2
+      "name" : "waste paper",
+      "description" : "There is a piece of waste paper on the ground, and it is not where it belongs.",
+      "start_position" : 0,
+      "target_position" : 6,
+      "target_points" : 2
     },
     {
-      "name": "food scraps",
-      "description": "There is some food scraps on the ground, and it is not where it belongs.",
-      "start_position": 0,
-      "target_position": 6,
-      "target_points": 2
+      "name" : "food scraps",
+      "description" : "There is some food scraps on the ground, and it is not where it belongs.",
+      "start_position" : 0,
+      "target_position" : 6,
+      "target_points" : 2
     },
     {
-      "name": "waste bottle",
-      "description": "There is a waste bottle on the ground, and it is not where it belongs.",
-      "start_position": 0,
-      "target_position": 6,
-      "target_points": 2
+      "name" : "waste bottle",
+      "description" : "There is a waste bottle on the ground, and it is not where it belongs.",
+      "start_position" : 0,
+      "target_position" : 6,
+      "target_points" : 2
     },
     {
-      "name": "vegetable peelings",
-      "description": "There is a wast paper on the ground, and it is not where it belongs.",
-      "start_position": 0,
-      "target_position": 6,
-      "target_points": 2
+      "name" : "vegetable peelings",
+      "description" : "There is a wast paper on the ground, and it is not where it belongs.",
+      "start_position" : 0,
+      "target_position" : 6,
+      "target_points" : 2
     },
     {
-      "name": "UofT mug",
-      "description": "The mug is in the hands of the clerk, ",
-      "start_position": 8,
-      "target_position": 0,
-      "target_points": 5
+      "name" : "UofT mug",
+      "description" : "The mug is in the hands of the clerk, ",
+      "start_position" : 8,
+      "target_position" : 0,
+      "target_points" : 5
     },
     {
-      "name": "laptop charger",
-      "description": "Congrats, you have found your laptop charger! Time to bring it home.",
-      "start_position": 7,
-      "target_position": 0,
-      "target_points": 5
+      "name" : "laptop charger",
+      "description" : "Congrats, you have found your laptop charger! Time to bring it home.",
+      "start_position" : 7,
+      "target_position" : 0,
+      "target_points" : 5
     },
     {
-      "name": "USB Drive",
-      "description": "Congrats, you have found your USB Drive! Time to bring it home.",
-      "start_position": 2,
-      "target_position": 0,
-      "target_points": 5
+      "name" : "USB Drive",
+      "description" : "Congrats, you have found your USB Drive! Time to bring it home.",
+      "start_position" : 2,
+      "target_position" : 0,
+      "target_points" : 5
     },
     {
-      "name": "textbook",
-      "description": "These textbooks look too heavy for one to carry, maybe the boy needs some help.",
-      "start_position": 1,
-      "target_position": 3,
-      "target_points": 5
+      "name" : "textbook",
+      "description" : "These textbooks look too heavy for one to carry, maybe the boy needs some help.",
+      "start_position" : 1,
+      "target_position" : 3,
+      "target_points" : 5
     }
   ]
 }
-
-
-
-
-
